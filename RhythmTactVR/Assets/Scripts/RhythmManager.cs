@@ -48,6 +48,8 @@ public class RhythmManager : MonoBehaviour {
 	// エディター設定
 	[ SerializeField ]
 	private bool _awakeStart = false;	// 起動時に開始フラグ
+	[ SerializeField ]
+	private bool _debugDraw = false;	// デバッグ表示
 
 	// インスタンス
 	private AudioSource _audioSource;
@@ -81,7 +83,9 @@ public class RhythmManager : MonoBehaviour {
 		updateMusic( );
 
 		// デバッグ表示
-		_debugView.drawFrequency( ref _melodyData.array, getIndex( ), getFrame( ) );
+		if ( _debugDraw ) {
+			_debugView.drawFrequency( ref _melodyData.array, getIndex( ), getFrame( ) );
+		}
 
 		// 起動時に開始
 		if ( _awakeStart ) {

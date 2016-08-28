@@ -50,6 +50,7 @@ public class FadeSceneManeger : Manager< FadeSceneManeger > {
 	// 列挙方
 	public enum TAG {
 		NONE,
+		AWAKE,
 		TITLE,
 		TUTORIAL,
 		GAME,
@@ -205,7 +206,7 @@ public class FadeSceneManeger : Manager< FadeSceneManeger > {
 		}
 		// シーンを強制切り替え
 		if ( Input.GetKeyDown( KeyCode.F5 ) ) {
-			int index = ( _curentTag + 1 < TAG.MAX_TAG )? ( int )_curentTag + 1: ( int )TAG.TITLE;
+			int index = ( _curentTag + 1 < TAG.MAX_TAG )? ( int )_curentTag + 1: ( int )TAG.AWAKE;
 			LoadScene( ( TAG )index );
 		}
 	}
