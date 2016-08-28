@@ -6,13 +6,90 @@ using Common;
 
 public class FileManager : Manager< FileManager > {
 
-	private FILE_DATA _data;	// データ
+	#region ファイルクラス
+	[ System.Serializable ]
+ 	private class File {
+		[ SerializeField ]
+		private TAG _tag = TAG.MELODY;	// タグ
 
-		
+		[ SerializeField ]
+		private string _name;		// 名前
+
+		private FILE_DATA _data;	// データ
+
+		/// <summary>
+		/// データのセット
+		/// </summary>
+		/// <param name="data"></param>
+		public void setData( FILE_DATA data ) {
+			_data = data;
+		}
+
+		/// <summary>
+		/// ファイル名の取得
+		/// </summary>
+		/// <returns></returns>
+		public string getName( ) {
+			return _name;
+		}
+
+		/// <summary>
+		/// データの存在確認
+		/// </summary>
+		/// <returns></returns>
+		public bool isData( ) {
+			bool frag = false;
+			frag = ( _data.enemyGenerator.list != null )? true : false;	// エネミージェネレーターの配列確認
+			frag = ( _data.rhythnData.array != null )? true : false;		// リズム配列の確認
+			return frag;
+		}
+
+		/// <summary>
+		/// タグの取得
+		/// </summary>
+		/// <returns></returns>
+		public TAG getTag( ) {
+			return _tag;
+		}
+
+		/// <summary>
+		/// データの取得
+		/// </summary>
+		/// <returns></returns>
+		public FILE_DATA getData( ) {
+			return _data;
+		}
+	}
+	#endregion
+
+	[ SerializeField ]
+	private File[ ] _files;
+
+	public enum TAG {
+		MELODY,
+		BASE,
+	}
 
 	// Awake関数の代わり
 	protected override void initialize( ) {
 
+	}
+
+	void FixedUpdate( ) {
+
+		cheackFilesData( );
+	}
+
+	/// <summary>
+	/// ファイルデータのチェック
+	/// </summary>
+	void cheackFilesData( ) {
+		foreach ( File file in _files ) {
+			// データ確認
+			if ( !file.isData( ) ) {
+				loadFile( file );// ロード
+			}
+		}
 	}
 
 	/// <summary>
@@ -20,9 +97,9 @@ public class FileManager : Manager< FileManager > {
 	/// </summary>
 	/// <param name="fileName"> ファイルの名前 </param>
 	/// <param name="list"> ファイルデータ型のリスト </param>
-	public bool loadFile( string fileName ) {
+	private bool loadFile( File file ) {
 		try {
-			StreamReader sr = new StreamReader( "../" + fileName + ".csv" );
+			StreamReader sr = new StreamReader( "../" + file.getName( ) + ".csv" );
 
 			FILE_DATA data = new FILE_DATA( );
 
@@ -35,7 +112,7 @@ public class FileManager : Manager< FileManager > {
 			sr.Close( );
 
 			// データ上書き
-			_data = data;
+			file.setData( data );
 
 			return true;
 		} catch {
@@ -125,18 +202,34 @@ public class FileManager : Manager< FileManager > {
 	}
 
 	/// <summary>
+	/// ファイルデータの取得
+	/// </summary>
+	/// <returns></returns>
+	private FILE_DATA getFileData( TAG tag ) {
+		FILE_DATA data = new FILE_DATA( );
+		foreach ( File file in _files ) {
+			if ( file.getTag( ) == tag ) {
+				data = file.getData( );
+				break;
+			}
+		}
+
+		return data;
+	}
+
+	/// <summary>
 	/// リズムデータの取得
 	/// </summary>
 	/// <returns></returns>
-	public FILE_DATA.RHYTHM getRhythmData( ) {
-		return _data.rhythnData;
+	public FILE_DATA.RHYTHM getRhythmData( TAG tag ) {
+		return getFileData( tag ).rhythnData;
 	}
 
-	public FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA getRhythmForNum( int num ) {
-		return _data.enemyGenerator.list[ num ];
+	public FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA getRhythmForNum( TAG tag,int num ) {
+		return getFileData( tag ).enemyGenerator.list[ num ];
 	}
 
-	public int getRhythmCount( ) {
-		return _data.enemyGenerator.list.Count;
+	public int getRhythmCount( TAG tag ) {
+		return getFileData( tag ).enemyGenerator.list.Count;
 	}
 }

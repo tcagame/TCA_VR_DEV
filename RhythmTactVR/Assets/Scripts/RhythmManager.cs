@@ -47,9 +47,6 @@ public class RhythmManager : MonoBehaviour {
 
 	// エディター設定
 	[ SerializeField ]
-	private AudioClip _audioClip;
-
-	[ SerializeField ]
 	private bool _awakeStart = false;	// 起動時に開始フラグ
 
 	// インスタンス
@@ -61,15 +58,11 @@ public class RhythmManager : MonoBehaviour {
 	private int _index = 0;		// タイミングのインデックス
 	private int _frame = 0;		// フレーム数
 	private bool _play = false;
-	private bool _fileReady = false;	// ファイル読み込みのフラグ
 	private bool _timing = false;
-	private FILE_DATA.RHYTHM _data;
-
-	private bool _nutralMode = false;	// ニュートラルモード
+	private FILE_DATA.RHYTHM _melodyData;
 
 	void Awake( ) {
 		_audioSource = GetComponent< AudioSource >( );
-		_audioSource.clip = _audioClip;
 		
 		_debugView = new DebugView( GetComponent< RhythmManager >( ) );
 	}
@@ -81,21 +74,19 @@ public class RhythmManager : MonoBehaviour {
 		}
 		// debug
 		if ( isTiming( ) ) {
-			Debug.Log( "index : " + _data.array[ _index ].index + " frame : " + _data.array[ _index ].frame );
+			Debug.Log( "index : " + _melodyData.array[ _index ].index + " frame : " + _melodyData.array[ _index ].frame );
 			Debug.Log( "next frame : " + getNextBetweenFrame( ) + " current frame : " + _frame );
 		}
 		updateRhythm( );
 		updateMusic( );
 
 		// デバッグ表示
-		_debugView.drawFrequency( ref _data.array, getIndex( ), getFrame( ) );
+		_debugView.drawFrequency( ref _melodyData.array, getIndex( ), getFrame( ) );
 
 		// 起動時に開始
-		if ( isFileLoad( ) ) {
-			if ( _awakeStart ) {
-				_awakeStart = false;
-				_audioSource.Play( );
-			}
+		if ( _awakeStart ) {
+			_awakeStart = false;
+			_audioSource.Play( );
 		}
 		
 	}
@@ -108,9 +99,9 @@ public class RhythmManager : MonoBehaviour {
 
 		// タイミングの確認
 		try {
-			if ( _data.array[ _index ].frame == ( uint )_frame ) {
+			if ( _melodyData.array[ _index ].frame == ( uint )_frame ) {
 				_timing = true;
-				_index += ( _index < _data.array.Length - 1 )? 1 : 0;	// インデックスのオーバーの抑制
+				_index += ( _index < _melodyData.array.Length - 1 )? 1 : 0;	// インデックスのオーバーの抑制
 			} else {
 				_timing = false;
 			}
@@ -141,27 +132,13 @@ public class RhythmManager : MonoBehaviour {
 	private bool isError( ) {
 		bool error = false;
 
-		// ファイルのロード
-		if ( !_fileReady && !_nutralMode ) {
-			_fileReady = FileManager.getInstance( ).loadFile( _audioClip.name );
-			error = ( _fileReady )? false : true; 
-		}
-
 		// データの取得
-		if ( _data.array == null ) {
-			_data = FileManager.getInstance( ).getRhythmData( );
-			
+		if ( _melodyData.array == null ) {
+			_melodyData = FileManager.getInstance( ).getRhythmData( FileManager.TAG.MELODY );
+			error = true;
 		}
 		return error;
 	}
-
-	/// <summary>
-	/// ファイルの読み込み確認
-	/// </summary>
-	/// <returns></returns>
-	private bool isFileLoad( ) {
-		return _fileReady;
-	} 
 
 	/// <summary>
 	/// 再生の確認
@@ -183,7 +160,7 @@ public class RhythmManager : MonoBehaviour {
 	/// 次のタイミングまでのフレーム数を返す
 	/// </summary>
 	public int getTiming( ) {
-		return ( int )_data.array[ _index ].frame;
+		return ( int )_melodyData.array[ _index ].frame;
 	}
 
 	/// <summary>
@@ -192,8 +169,8 @@ public class RhythmManager : MonoBehaviour {
 	/// <returns> 1以上( true )　0は失敗( false ) </returns>
 	public int getNextBetweenFrame( ) {
 		int frame = 0;
-		if ( _index < _data.array.Length - 1 ) {
-			frame = ( int )( _data.array[ _index + 1 ].frame - _data.array[ _index ].frame );
+		if ( _index < _melodyData.array.Length - 1 ) {
+			frame = ( int )( _melodyData.array[ _index + 1 ].frame - _melodyData.array[ _index ].frame );
 		}
 		return frame;
 	}
@@ -203,10 +180,10 @@ public class RhythmManager : MonoBehaviour {
 	/// </summary>
 	/// <returns> 1以上( true ), 0失敗( false ) </returns>
 	public int gatBeforeTiming( ) {
-		if ( _index < 1 || _index > _data.array.Length - 1 ) {
+		if ( _index < 1 || _index > _melodyData.array.Length - 1 ) {
 			return 0;
 		}
-		return ( int )_data.array[ _index - 1 ].frame;
+		return ( int )_melodyData.array[ _index - 1 ].frame;
 	}
 
 	/// <summary>
@@ -215,15 +192,6 @@ public class RhythmManager : MonoBehaviour {
 	/// <returns></returns>
 	public bool isTiming( ) {
 		return _timing;
-	}
-
-	/// <summary>
-	/// ニュートラルモードにする
-	/// </summary>
-	/// ファイル読み込み等の実行をOFFにする
-	/// <param name="enable"></param>
-	public void setNeutralMode( bool enable ) {
-		_nutralMode = enable;
 	}
 
 	/// <summary>

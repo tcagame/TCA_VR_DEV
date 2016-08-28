@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\ControllerDebug.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\FadeSceneManeger.cs" />
     <Compile Include="Assets\Scripts\FileManager.cs" />
     <Compile Include="Assets\Scripts\Manager.cs" />
     <Compile Include="Assets\Scripts\MatrixExample.cs" />

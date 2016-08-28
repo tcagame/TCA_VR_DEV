@@ -34,9 +34,7 @@ public class RhythmRecoder : MonoBehaviour {
             _resolution = 256;
 			Debug.LogError( "解像度を2のべき乗に設定してください。" );
         }
-			
-		_rhythmMgr.setNeutralMode( true );	// リズムマネージャーの実行をニュートラルにする（ファイル読み込みでエラーが出るため）
-
+		
 		//FileManager.getInstance( ).loadFile( _audioSource.clip.name );
 	}
 	
@@ -52,13 +50,6 @@ public class RhythmRecoder : MonoBehaviour {
 			saveFile( _audioSource.clip.name, ref _list );
 			Debug.Log( "Save" );
 		}
-
-		// ファイルのロード
-		if ( Input.GetKeyDown( KeyCode.F2 ) ) {
-			FileManager.getInstance( ).loadFile( _audioSource.clip.name );
-			_loadFileData = FileManager.getInstance( ).getRhythmData( );
-			Debug.Log( "Load" );
-        }
 
 	}
 

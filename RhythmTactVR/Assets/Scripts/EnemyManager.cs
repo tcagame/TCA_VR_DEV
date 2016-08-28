@@ -43,9 +43,9 @@ public class EnemyManager : MonoBehaviour {
 				}
 			}
 			// キューブの生成
-			if ( _create_count < _file_manager.getRhythmCount( ) ) {
-				if ( ( _comming_rhyrhm_num == _file_manager.getRhythmForNum( _create_count ).rhythm_num ) ||
-					 ( _rhythm_manager.getIndex( ) == _file_manager.getRhythmForNum( _create_count ).rhythm_num ) ) {
+			if ( _create_count < _file_manager.getRhythmCount( FileManager.TAG.MELODY ) ) {
+				if ( ( _comming_rhyrhm_num == _file_manager.getRhythmForNum( FileManager.TAG.MELODY, _create_count ).rhythm_num ) ||
+					 ( _rhythm_manager.getIndex( ) == _file_manager.getRhythmForNum( FileManager.TAG.MELODY, _create_count ).rhythm_num ) ) {
 					Create( _create_count );
 					_create_count++;
 				}
@@ -70,10 +70,10 @@ public class EnemyManager : MonoBehaviour {
 	
 	public void Create( int count ) {
 		// 値の設定
-		GameObject obj = ( GameObject )Instantiate( _enemy_prefab, _file_manager.getRhythmForNum( count ).create_pos, Quaternion.identity );
-		obj.GetComponent<Enemy>( ).setObjType( _file_manager.getRhythmForNum( count ).obj_type );
-		obj.GetComponent<Enemy>( ).setSpeed( _file_manager.getRhythmForNum( count ).speed );
-		obj.GetComponent<Enemy>( ).setTargetType( _file_manager.getRhythmForNum( count ).target_type );
+		GameObject obj = ( GameObject )Instantiate( _enemy_prefab, _file_manager.getRhythmForNum( FileManager.TAG.MELODY, count ).create_pos, Quaternion.identity );
+		obj.GetComponent<Enemy>( ).setObjType( _file_manager.getRhythmForNum( FileManager.TAG.MELODY, count ).obj_type );
+		obj.GetComponent<Enemy>( ).setSpeed( _file_manager.getRhythmForNum( FileManager.TAG.MELODY, count ).speed );
+		obj.GetComponent<Enemy>( ).setTargetType( _file_manager.getRhythmForNum( FileManager.TAG.MELODY, count ).target_type );
 			
 		// ターゲットの設定
 		Vector3 pos = _target.position;
@@ -98,7 +98,7 @@ public class EnemyManager : MonoBehaviour {
 
 	public void SetEnemyPos( int num ) {
 		Vector3 pos = _enemy[ num ].transform.position;
-		FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA rhythm = _file_manager.getRhythmForNum( num );
+		FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA rhythm = _file_manager.getRhythmForNum( FileManager.TAG.MELODY, num );
 		
 		_enemy[ num ].transform.position = new Vector3( pos.x + _enemy[ num ].GetComponent<Enemy>( ).getDir( ).x * rhythm.speed,
 														pos.y + _enemy[ num ].GetComponent<Enemy>( ).getDir( ).y * rhythm.speed,
