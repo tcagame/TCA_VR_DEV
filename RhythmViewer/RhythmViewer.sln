@@ -1,12 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmViewer.CSharp", "RhythmViewer.CSharp.csproj", "{BAE7F883-150A-5F21-860C-05CACC1978D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAE7F883-150A-5F21-860C-05CACC1978D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAE7F883-150A-5F21-860C-05CACC1978D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAE7F883-150A-5F21-860C-05CACC1978D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAE7F883-150A-5F21-860C-05CACC1978D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
