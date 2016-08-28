@@ -1,4 +1,6 @@
-﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
+﻿
+
+//======= Copyright (c) Valve Corporation, All rights reserved. ===============
 //
 // Purpose: Enables/disables objects based on connectivity and assigned roles.
 //

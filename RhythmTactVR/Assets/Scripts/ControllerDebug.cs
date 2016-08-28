@@ -45,12 +45,8 @@ public class ControllerDebug : MonoBehaviour {
 	}
 
 	void updateInputButton( SteamVR_TrackedObject target ) {
-		SteamVR_Controller.Device device;
-		try {
-			device = SteamVR_Controller.Input( (int) target.index );
-		} catch {
-			return;
-		}
+		SteamVR_Controller.Device device = SteamVR_Controller.Input( (int) target.index );
+
 		_textButton.text = null;// テキスト初期化
 		_textButton.text += "< Button >\n";	// タイトル
 
@@ -152,12 +148,8 @@ public class ControllerDebug : MonoBehaviour {
 	}
 
 	void updateInputValue( SteamVR_TrackedObject target ) {
-		SteamVR_Controller.Device device;
-		try {
-			device = SteamVR_Controller.Input( (int) target.index );
-		} catch {
-			return;
-		}
+		SteamVR_Controller.Device device = SteamVR_Controller.Input( (int) target.index );
+
 		_textValue.text = null;
 		_textValue.text += "< Value >\n";	// タイトル
 
@@ -183,12 +175,8 @@ public class ControllerDebug : MonoBehaviour {
 	/// </summary>
 	/// <param name="target"></param>
 	void updateVibration( SteamVR_TrackedObject target ) {
-		SteamVR_Controller.Device device;
-		try {
-			device = SteamVR_Controller.Input( (int) target.index );
-		} catch {
-			return;
-		}
+		SteamVR_Controller.Device device = SteamVR_Controller.Input( ( int )target.index );
+
 		// 振動
 		const ushort MAX = 2000;
 		ushort value = ( ushort )( device.GetAxis( Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger ).x * MAX );
@@ -198,13 +186,5 @@ public class ControllerDebug : MonoBehaviour {
 		_textVibration.text = null;
 		_textVibration.text += "< Vibration >\n";	// タイトル
 		_textVibration.text += "value : " + value;
-	}
-
-	/// <summary>
-	/// トラッキングオブジェクトを取得
-	/// </summary>
-	/// <returns></returns>
-	public SteamVR_TrackedObject[ ] getTrackedObject( ) {
-		return _trackedObjs;
 	}
 }
