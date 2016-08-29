@@ -28,7 +28,6 @@ public class Neon : MonoBehaviour {
 
 	// 変数
 	private Color[ ] _colors;
-	private float _time = 0f;
 
 	private void Awake( ) {
 		// マテリアルのインスタンスを作成
@@ -58,13 +57,6 @@ public class Neon : MonoBehaviour {
 				0, 2, 1,
 				0, 3, 2
 			};
-		}
-
-		// 頂点データの表示
-		int i = 0;
-		foreach ( Vector3 vertex in mesh.vertices ) {
-			//Debug.Log( "vertex [ " + i + " ] "  + vertex );
-			i++;
 		}
 
 		// 頂点カラー配列を確保
@@ -121,10 +113,12 @@ public class Neon : MonoBehaviour {
 			_shader.setHightightActive( ( _shader.isHighLight( ) )? false : true );
 		}
 
+		// ヒットアニメーション
 		if ( Input.GetKeyDown( KeyCode.F3 ) ) {
 			hitAnimationPlay( );
 		}
 
+		// サークルカラーアニメーション
 		if ( Input.GetKeyDown( KeyCode.F4 ) ) {
 			circleColoringPlay( Vector3.zero, 2f, 1f, table[ Random.Range( 0, table.Length ) ] );
 		}
@@ -134,6 +128,10 @@ public class Neon : MonoBehaviour {
 			// タイミング時
 			if ( _rhythmManager.isTiming( ) ) {
 				hitAnimationPlay( );
+				// カラーアニメーションの実行
+				if ( _rhythmManager.getIndex( ) % 3 == 0 ) {
+					circleColoringPlay( Vector3.zero, 2f, 1f, table[ _rhythmManager.getIndex( ) % table.Length ] );
+				}
 			}
 		}
 	}

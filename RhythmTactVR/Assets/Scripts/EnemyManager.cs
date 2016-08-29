@@ -11,8 +11,6 @@ public class EnemyManager : MonoBehaviour {
 	private FileManager _file_manager;
 	[ SerializeField ]
 	private RhythmManager _rhythm_manager;
-	[ SerializeField ]
-	private float _eleteDistance = 100f;	// 削除する距離（ターゲットの位置から）
 
 	public List<GameObject> _enemy = new List<GameObject>( );
 	public Transform _target;
