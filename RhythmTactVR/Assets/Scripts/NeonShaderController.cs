@@ -182,8 +182,16 @@ public class NeonShaderController : MonoBehaviour {
 	#region Hit Effect Class
 	[ System.Serializable ]
 	public class HitEffect : ShaderAnimationModule {
-		public float[ ] _frame;		
-		public Color _curentColor;	// 現在の頂点カラー
+		// 列挙型
+		public enum STEP {
+			FIRST,
+			SECOND,
+			THIRD,
+			MAX_STEP,
+		}
+		// 変数
+		private float[ ] _frame = new float[ ( int )STEP.MAX_STEP ];		
+		private Color _curentColor;	// 現在の頂点カラー
 		public Color _color;
 		private int _hitAnimationFrameCount = 0;	// ヒットアニメーションの経過時間
 
@@ -194,6 +202,23 @@ public class NeonShaderController : MonoBehaviour {
 
 		protected override void playSetting( ) {
 			_hitAnimationFrameCount = 0;	// フレームの初期化
+		}
+
+		/// <summary>
+		/// フレームのセット
+		/// </summary>
+		/// <param name="tag"> フレームタグ </param>
+		/// <param name="frame"> フレーム数 </param>
+		public void setFrame( STEP tag, int frame ) {
+			_frame[ ( int )tag ] = frame;
+		}
+
+		/// <summary>
+		/// 現在の頂点からをセット
+		/// </summary>
+		/// <param name="color"></param>
+		public void setCurentColor( Color color ) {
+			_curentColor = color;
 		}
 
 		/// <summary>
@@ -210,7 +235,7 @@ public class NeonShaderController : MonoBehaviour {
 			// first
 			Color changColor = _color;
 			Color curentColor = _curentColor;
-			float frame = _frame[ 0 ];
+			float frame = _frame[ ( int )STEP.FIRST ];
 			if ( frame - _hitAnimationFrameCount >= 0 ) {
 				float ratio = _hitAnimationFrameCount / ( float )frame;
 				curentColor += ( changColor - curentColor ) * ratio;
@@ -219,16 +244,16 @@ public class NeonShaderController : MonoBehaviour {
 			}
 		
 			// second
-			frame += _frame[ 1 ];
+			frame += _frame[ ( int )STEP.SECOND ];
 			if ( frame - _hitAnimationFrameCount > 0 ) {
 				_controller.setVertexColor( changColor );
 				return;
 			}
 		
 			// third
-			frame += _frame[ 2 ];
+			frame += _frame[ ( int )STEP.THIRD ];
 			if ( frame - _hitAnimationFrameCount >= 0 ) {
-				float ratio = 1f - ( _hitAnimationFrameCount - ( _frame[ 0 ] + _frame[ 1 ] ) ) / ( float )_frame[ 2 ];
+				float ratio = 1f - ( _hitAnimationFrameCount - ( _frame[ ( int )STEP.FIRST ] + _frame[ ( int )STEP.SECOND ] ) ) / ( float )_frame[ ( int )STEP.THIRD ];
 				curentColor +=  ( changColor - curentColor ) * ratio;
 				_controller.setVertexColor( curentColor );
 				return;
@@ -315,9 +340,9 @@ public class NeonShaderController : MonoBehaviour {
 	/// モードの更新
 	/// </summary>
 	/// <param name="mode"></param>
-	public void updateMode( NeonTest.MODE mode ) {
+	public void updateMode( Neon.MODE mode ) {
 		int index;
-		if ( mode == NeonTest.MODE.ALL_COLORING ) {
+		if ( mode == Neon.MODE.ALL_COLORING ) {
 			index = 1;
 		} else {
 			index = 0;
@@ -421,15 +446,14 @@ public class NeonShaderController : MonoBehaviour {
 	/// <param name="thirdTime"></param>
 	public void setHitAnimation( Color color, int firstFrame = 0, int secondFrame = 0, int thirdFrame = 0 ) {
 		// 再生の確認
-		if ( _hitEffect.isPlay( ) ) {
-			return;
+		if ( !_hitEffect.isPlay( ) ) {
+			// 現在の頂点カラーの取得
+			_hitEffect.setCurentColor( getVertexColor( ) );	
 		}
-		_hitEffect._frame = new float[ 3 ];	// 時間配列の確保( first second third )
-		_hitEffect._frame[ 0 ] = firstFrame;	// first
-		_hitEffect._frame[ 1 ] = secondFrame;	// second
-		_hitEffect._frame[ 2 ] = thirdFrame;	// third
-		// 現在の頂点カラーの取得
-		_hitEffect._curentColor = getVertexColor( );	
+		// 各フレームにセット
+		_hitEffect.setFrame( HitEffect.STEP.FIRST, firstFrame );	// first
+		_hitEffect.setFrame( HitEffect.STEP.SECOND, secondFrame );	// second
+		_hitEffect.setFrame( HitEffect.STEP.THIRD, thirdFrame );	// third
 		// 変化する色
 		_hitEffect._color = color;
 		// フラグON

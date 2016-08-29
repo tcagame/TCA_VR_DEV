@@ -2,7 +2,7 @@
 using System.Collections;
 
 [ RequireComponent( typeof( MeshFilter ) ) ]
-public class NeonTest : MonoBehaviour {
+public class Neon : MonoBehaviour {
 
 	// エディター設定
 	public MODE _mode = MODE.ALL_COLORING;	// モード
@@ -12,7 +12,7 @@ public class NeonTest : MonoBehaviour {
 	private Material _mat;		//  マテリアル
 
 	[ SerializeField ]
-	private bool _useModel = false;		// モデルの使用フラグ
+	private bool _useModel = true;		// モデルの使用フラグ
 
 	// 列挙型
 	public enum MODE {
@@ -243,7 +243,24 @@ public class NeonTest : MonoBehaviour {
 	/// ヒットしたアニメーション
 	/// </summary>
 	void hitAnimationPlay( ) {
-		_shader.setHitAnimation( Color.white, 10, 20, 10 );
+		// テーブル
+		int[ ] ratioTable = {
+			1, 2, 1,
+		};
+		int[ ] frameTable = {
+			10, 20, 10,
+		};
+		int frameSum = frameTable[ 0 ] + frameTable[ 1 ] + frameTable[ 2 ];	// 総フレーム数
+		int ratioSum = ratioTable[ 0 ] + ratioTable[ 1 ] + ratioTable[ 2 ];	// 総比率
+		int nextFrameTiming = _rhythmManager.getNextBetweenFrame( );	// 次までのフレーム
+		// 次のフレームまで終わるか確認
+		if ( frameSum > nextFrameTiming ) {
+			frameTable[ 0 ] = nextFrameTiming * ratioTable[ 0 ] / ratioSum;
+			frameTable[ 1 ] = nextFrameTiming * ratioTable[ 1 ] / ratioSum;
+			frameTable[ 2 ] = nextFrameTiming * ratioTable[ 2 ] / ratioSum;
+		}
+
+		_shader.setHitAnimation( Color.white, frameTable[ 0 ], frameTable[ 1 ], frameTable[ 2 ] );
 	}
 
 	/// <summary>

@@ -74,16 +74,17 @@ public class RhythmManager : MonoBehaviour {
 		if ( isError( ) ) {
 			return;
 		}
-		// debug
-		if ( isTiming( ) ) {
-			Debug.Log( "index : " + _melodyData.array[ _index ].index + " frame : " + _melodyData.array[ _index ].frame );
-			Debug.Log( "next frame : " + getNextBetweenFrame( ) + " current frame : " + _frame );
-		}
+		
 		updateRhythm( );
 		updateMusic( );
 
 		// デバッグ表示
 		if ( _debugDraw ) {
+			// debug
+			if ( isTiming( ) ) {
+				Debug.Log( "index : " + _melodyData.array[ _index ].index + " frame : " + _melodyData.array[ _index ].frame );
+				Debug.Log( "next frame : " + getNextBetweenFrame( ) + " current frame : " + _frame );
+			}
 			_debugView.drawFrequency( ref _melodyData.array, getIndex( ), getFrame( ) );
 		}
 

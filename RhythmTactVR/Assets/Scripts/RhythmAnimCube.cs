@@ -43,9 +43,6 @@ public class RhythmAnimCube : MonoBehaviour {
 				animator[1].SetTrigger("RightTrigger");
 				WalkFlag = true;
 			}
-			Debug.Log("前進：" + animator[ 0 ].GetCurrentAnimatorStateInfo(0).normalizedTime);
-			Debug.Log("歩き：" + animator[ 1 ].GetCurrentAnimatorStateInfo(0).normalizedTime);
-		    
 		}
     }
 

@@ -6,19 +6,24 @@ using Common;
 public class EnemyManager : MonoBehaviour {
 	
 	[ SerializeField ]
+	private GameObject _enemy_prefab;
+	[ SerializeField ]
 	private FileManager _file_manager;
 	[ SerializeField ]
 	private RhythmManager _rhythm_manager;
+	[ SerializeField ]
+	private float _eleteDistance = 100f;	// 削除する距離（ターゲットの位置から）
 
 	public List<GameObject> _enemy = new List<GameObject>( );
 	public Transform _target;
 
-	GameObject _enemy_prefab;
 	int _create_count = 0;   // 打ち出すエネミーの番号
 	int _comming_rhyrhm_num = 0; // 仮のリズム番号
 
 	void Awake( ) {
-		_enemy_prefab = ( GameObject )Resources.Load( "Prefabs/Enemy" );
+		if ( !_enemy_prefab ) {
+			_enemy_prefab = ( GameObject )Resources.Load( "Prefabs/vr_01_fix_02" );
+		}
 	}
 
 	// Use this for initialization
@@ -90,6 +95,9 @@ public class EnemyManager : MonoBehaviour {
 			obj.GetComponent<Enemy>( ).started( );
 		}
 		_enemy.Add( obj );
+
+		// マネージャーンの配下に設定
+		obj.transform.parent = transform;
 	}
 
 	public int getEnemyNum( ) {

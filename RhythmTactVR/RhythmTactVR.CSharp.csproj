@@ -18,7 +18,6 @@
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.4.0f3</UnityVersion>
     <RootNamespace></RootNamespace>
-    <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,12 +63,6 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="RhythmTactVR.CSharp.Plugins.csproj">
@@ -94,8 +87,8 @@
     <Compile Include="Assets\Scripts\Manager.cs" />
     <Compile Include="Assets\Scripts\MatrixExample.cs" />
     <Compile Include="Assets\Scripts\Music.cs" />
+    <Compile Include="Assets\Scripts\Neon.cs" />
     <Compile Include="Assets\Scripts\NeonShaderController.cs" />
-    <Compile Include="Assets\Scripts\NeonTest.cs" />
     <Compile Include="Assets\Scripts\RhythmAnimCube.cs" />
     <Compile Include="Assets\Scripts\RhythmCTRL_MNG.cs" />
     <Compile Include="Assets\Scripts\RhythmManager.cs" />
