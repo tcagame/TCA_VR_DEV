@@ -1,17 +1,67 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Common;
+using UnityEngine.UI;
 
 public class RhythmViewer : MonoBehaviour {
 
+	public uint _farmeScale = 1000;
+
+	[ SerializeField ]
+	private Slider _slider;
+
+	[ SerializeField ]
+	private RhythmManager _rhythmManager;
+
+	[ SerializeField ]
+	private Text _text;
+
+	private int _frame = 0;
+
+
 	// Use this for initialization
-	void Start () {
-	
+	void Awake( ) {
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate( ) {
+		updateRhythmManager( );
+		updateSlider( );
+		updateText( );
+		updateControl( );
+	}
+
+	void updateSlider( ) {
+		// 最大値と最小値の設定
+		_slider.minValue = 0;
+		_slider.maxValue = ( _farmeScale > 0 )? _farmeScale : 1;
+		
+		// 値の更新
+		_slider.value = _frame % _farmeScale;
+	}
+
+
+	void updateRhythmManager( ) {
+		// 現在のフレームを取得
+		_frame = _rhythmManager.getFrame( );
+	}
+
+	void updateText( ) {
+		// フレーム数の表示
+		_text.text = _rhythmManager.getFrame( ).ToString( );  
+	}
+
+	void updateControl( ) {
+		// 再生位置の取得
+	}
+
+	/// <summary>
+	/// フレームスケール
+	/// </summary>
+	/// <returns></returns>
+	public int getFrameScale( ) {
+		return ( int )_farmeScale;
 	}
 
 	/// <summary>

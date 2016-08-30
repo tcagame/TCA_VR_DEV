@@ -72,7 +72,7 @@ public class FileManager : Manager< FileManager > {
 
 	// Awake関数の代わり
 	protected override void initialize( ) {
-
+		cheackFilesData( );
 	}
 
 	void FixedUpdate( ) {
