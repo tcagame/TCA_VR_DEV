@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\RhythmManager.cs" />
     <Compile Include="Assets\Scripts\RhythmRecoder.cs" />
     <Compile Include="Assets\Scripts\RhythmViewer.cs" />
+    <Compile Include="Assets\Scripts\TimingData.cs" />
     <Compile Include="Assets\Scripts\TimingManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />

@@ -111,4 +111,27 @@ public class Audio : MonoBehaviour {
 	public void setMute( bool enable ) {
 		_target.mute = enabled;
 	}
+
+	/// <summary>
+	/// 再生時間の取得
+	/// </summary>
+	/// <returns></returns>
+	public float getTime( ) {
+		return _target.time;
+	}
+
+	/// <summary>
+	///  タイムサンプルの取得
+	/// </summary>
+	/// <returns></returns>
+	public int getTimeSamples( ) {
+		return _target.timeSamples;
+	}
+
+	/// <summary>
+	/// 再生時間の指定
+	/// </summary>
+	public void setTime( float time ) {
+		_target.time = time;
+	}
 }

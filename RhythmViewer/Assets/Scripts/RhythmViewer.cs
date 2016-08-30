@@ -2,8 +2,31 @@
 using System.Collections;
 using Common;
 using UnityEngine.UI;
+using Common;
 
 public class RhythmViewer : MonoBehaviour {
+
+	
+	#region ステージ　クラス
+	[ System.Serializable ]
+	private class Stage {
+		public int _stageIndex = 0;
+		public int _firstTimingIndex = 0;
+		public float _audioTime = 0f;
+
+		/// <summary>
+		/// セティング
+		/// </summary>
+		/// <param name="stageIndex"> ステージ番号 </param>
+		/// <param name="firstTimingIndex"> ステージ最初のタイミング番号 </param>
+		/// <param name="audioTime"> オーディオの時間 </param>
+		public void setting( int stageIndex, int firstTimingIndex, float audioTime ) {
+			_stageIndex = stageIndex;
+			_firstTimingIndex = firstTimingIndex;
+			_audioTime = audioTime;
+		}
+	}
+	#endregion
 
 	public uint _farmeScale = 1000;
 
@@ -15,13 +38,27 @@ public class RhythmViewer : MonoBehaviour {
 
 	[ SerializeField ]
 	private Text _text;
+	
+	[ SerializeField ]
+	private Audio _audio;
+	
+	[ SerializeField ]
+	private FileManager _fileManager;
 
 	private int _frame = 0;
+	
+	private Stage _stage = new Stage( );
+	
 
+	private FILE_DATA.RHYTHM _data;
 
 	// Use this for initialization
 	void Awake( ) {
+		_stage.setting( 0, _rhythmManager.getIndex( ), _audio.getTime( ) );
+	}
 
+	void Start( ) {
+		_data = _fileManager.getRhythmData( FileManager.TAG.MELODY );
 	}
 	
 	// Update is called once per frame
@@ -30,6 +67,7 @@ public class RhythmViewer : MonoBehaviour {
 		updateSlider( );
 		updateText( );
 		updateControl( );
+		updateStage( );
 	}
 
 	void updateSlider( ) {
@@ -54,6 +92,41 @@ public class RhythmViewer : MonoBehaviour {
 
 	void updateControl( ) {
 		// 再生位置の取得
+	}
+	
+	void updateStage( ) {
+		// ステージインデックスの確認
+		int stageIndex = _rhythmManager.getFrame( ) / getFrameScale( );
+		if ( _stage._stageIndex != stageIndex ) {
+			// 更新
+			_stage.setting( stageIndex, _rhythmManager.getIndex( ), _audio.getTime( ) );
+		}
+	}
+
+	// ステージ最初のタイミング番号取得
+	public int getStageFirstTimingIndex( ) {
+		return _stage._firstTimingIndex;
+	}
+
+	/// <summary>
+	/// ステージの番号取得
+	/// </summary>
+	/// <returns></returns>
+	public int getStageIndex( ) {
+		return _stage._stageIndex;
+	}
+
+	/// <summary>
+	/// タイミングデータの取得
+	/// </summary>
+	/// <param name="index"></param>
+	/// <returns></returns>
+	public TIMING_DATA getData( int index ) {
+		// アクセス外の確認
+		if ( index >= _data.array.Length  ) {
+			return new TIMING_DATA( );
+		}
+		return _data.array[ index ];
 	}
 
 	/// <summary>

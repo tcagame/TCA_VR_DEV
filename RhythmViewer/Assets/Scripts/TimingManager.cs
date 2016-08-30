@@ -2,12 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using Common;
 
 public class TimingManager : MonoBehaviour {
-
-	[ SerializeField ]
-	private FileManager _fileManager;
 
 	[ SerializeField ]
 	private RhythmManager _rhythmManager;
@@ -17,6 +13,7 @@ public class TimingManager : MonoBehaviour {
 
 	[ SerializeField ]
 	private CopyModule _copyModule;
+
 
 	#region コピー用モジュール　クラス
 	[ System.Serializable ]
@@ -58,16 +55,13 @@ public class TimingManager : MonoBehaviour {
 	}
 	#endregion
 
-	private FILE_DATA.RHYTHM _data;
-	private int _stage = 0;
-	private int _oldStage = 0;
 	private List< GameObject > _list = new List< GameObject >( ); 
+	private bool _debug = false;
+	private int _oldStageIndex = -1;
 
 	// Use this for initialization
 	void Start( ) {
-		_data = _fileManager.getRhythmData( FileManager.TAG.MELODY );
 
-		create( );
 	}
 	
 	// Update is called once per frame
@@ -75,18 +69,21 @@ public class TimingManager : MonoBehaviour {
 		updateSlider( );
 		checkDelete( );
 		if ( checkCreate( ) ) {
-			//create( );
+			create( );
 		}
+		
+		_oldStageIndex = _rhythmView.getStageIndex( );
 	}
 
 	void updateSlider( ) {
 		Slider offset = _copyModule.getSlider( );
-		int index = _rhythmManager.getIndex( );
+		int index = _rhythmView.getStageFirstTimingIndex( );
 		foreach ( GameObject obj in _list ) {
 			Slider slider = obj.GetComponent< Slider >( );
 			slider.maxValue = offset.maxValue;
 			slider.minValue = offset.minValue;
-			slider.value = _data.array[ index ].frame % _rhythmView.getFrameScale( );
+			slider.value = _rhythmView.getData( index ).frame % _rhythmView.getFrameScale( );
+			slider.enabled = true;
 			index++;
 		}
 	}
@@ -97,17 +94,14 @@ public class TimingManager : MonoBehaviour {
 			_list[ i ].name = "Destory";
 		}
 		// 現在のフレーム
-		int frame = _rhythmView.getFrameScale( ) * _stage;
+		int frame = _rhythmView.getFrameScale( ) * _rhythmView.getStageIndex( );
 		// インデックス
 		int index = _rhythmManager.getIndex( );
 		// ステージを作成
-		while ( frame < _rhythmView.getFrameScale( ) * ( _stage + 1 ) ) {
+		while ( frame < _rhythmView.getFrameScale( ) * ( _rhythmView.getStageIndex( ) + 1 ) ) {
 			// 生成
-			if ( frame == _data.array[ index ].frame ) {
+			if ( frame == _rhythmView.getData( index ).frame ) {
 				RectTransform rectTransform = _copyModule.create( frame );
-
-				// リストに登録
-				_list.Add( rectTransform.gameObject );
 
 				// ゲームオブジェクトの配下に設定
 				rectTransform.parent = transform;
@@ -116,6 +110,9 @@ public class TimingManager : MonoBehaviour {
 				rectTransform.sizeDelta = new Vector2( _copyModule.getWidth( ), 0f );
 				rectTransform.localPosition = Vector3.zero;
 				rectTransform.localScale = Vector3.one;
+
+				// リストに登録
+				_list.Add( rectTransform.gameObject );
 
 				// インデックスの繰り上げ
 				index++;
@@ -135,14 +132,7 @@ public class TimingManager : MonoBehaviour {
 	}
 
 	bool checkCreate( ) {
-		bool check = false;
-
-		_oldStage = _stage;
-		_stage = _rhythmManager.getFrame( ) / _rhythmView.getFrameScale( );
-		if ( _oldStage != _stage ) {
-			check = true;
-		}
-
-		return check;
+		return _rhythmView.getStageIndex( ) != _oldStageIndex;
 	}
+
 }
