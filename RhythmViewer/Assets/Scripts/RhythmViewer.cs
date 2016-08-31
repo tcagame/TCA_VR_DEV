@@ -12,6 +12,7 @@ public class RhythmViewer : MonoBehaviour {
 	private class Stage {
 		public int _stageIndex = 0;
 		public int _firstTimingIndex = 0;
+		public int _firstFrame = 0;
 		public float _audioTime = 0f;
 
 		/// <summary>
@@ -20,10 +21,27 @@ public class RhythmViewer : MonoBehaviour {
 		/// <param name="stageIndex"> ステージ番号 </param>
 		/// <param name="firstTimingIndex"> ステージ最初のタイミング番号 </param>
 		/// <param name="audioTime"> オーディオの時間 </param>
-		public void setting( int stageIndex, int firstTimingIndex, float audioTime ) {
+		public void setting( int stageIndex, int firstTimingIndex, float audioTime, int frame ) {
 			_stageIndex = stageIndex;
 			_firstTimingIndex = firstTimingIndex;
 			_audioTime = audioTime;
+			_firstFrame = frame;
+		}
+
+		/// <summary>
+		/// オーディオの時間取得
+		/// </summary>
+		/// <returns></returns>
+		public float getAudioTime( ) {
+			return _audioTime;
+		}
+		
+		/// <summary>
+		/// ステージはじめのフレーム取得
+		/// </summary>
+		/// <returns></returns>
+		public int getFirstFarme( ) {
+			return _firstFrame;
 		}
 	}
 	#endregion
@@ -49,12 +67,13 @@ public class RhythmViewer : MonoBehaviour {
 	
 	private Stage _stage = new Stage( );
 	
+	private bool _repeat = false;
 
 	private FILE_DATA.RHYTHM _data;
 
 	// Use this for initialization
 	void Awake( ) {
-		_stage.setting( 0, _rhythmManager.getIndex( ), _audio.getTime( ) );
+		_stage.setting( 0, _rhythmManager.getIndex( ), _audio.getTime( ), _rhythmManager.getFrame( ) );
 	}
 
 	void Start( ) {
@@ -98,9 +117,19 @@ public class RhythmViewer : MonoBehaviour {
 		// ステージインデックスの確認
 		int stageIndex = _rhythmManager.getFrame( ) / getFrameScale( );
 		if ( _stage._stageIndex != stageIndex ) {
-			// 更新
-			_stage.setting( stageIndex, _rhythmManager.getIndex( ), _audio.getTime( ) );
+			// リピートの確認
+			if ( _repeat ) {
+				repeat( );
+			} else {
+				// 更新
+				_stage.setting( stageIndex, _rhythmManager.getIndex( ), _audio.getTime( ), _rhythmManager.getFrame( ) );
+			}
 		}
+	}
+
+	void repeat( ) {
+		_audio.setTime( _stage.getAudioTime( ) );
+		_rhythmManager.setFrame( _stage.getFirstFarme( ) );
 	}
 
 	// ステージ最初のタイミング番号取得
@@ -163,4 +192,23 @@ public class RhythmViewer : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// データのセーブ
+	/// </summary>
+	/// <param name="index"></param>
+	/// <param name="frame"></param>
+	public void setArrayDataFrame( int index, int frame ) {
+		_data.array[ index ].frame = ( uint )frame;
+	}
+
+	/// <summary>
+	/// リピートの切り替え
+	/// </summary>
+	public void setRepeat( ) {
+		_repeat = ( _repeat )? false : true;
+	}
+
+	public void fileSave( ) {
+		
+	}
 }

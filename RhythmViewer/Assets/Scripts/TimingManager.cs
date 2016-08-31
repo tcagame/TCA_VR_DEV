@@ -40,8 +40,6 @@ public class TimingManager : MonoBehaviour {
 		/// <returns></returns>
 		public RectTransform create( int frame ) {
 			GameObject obj = ( GameObject )Instantiate( _prefab );
-			Text text = obj.GetComponentInChildren< Text >( );
-			text.text = frame.ToString( );
 			return obj.GetComponent< RectTransform >( );
 		}
 
@@ -56,7 +54,6 @@ public class TimingManager : MonoBehaviour {
 	#endregion
 
 	private List< GameObject > _list = new List< GameObject >( ); 
-	private bool _debug = false;
 	private int _oldStageIndex = -1;
 
 	// Use this for initialization
@@ -66,7 +63,6 @@ public class TimingManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate( ) {
-		updateSlider( );
 		checkDelete( );
 		if ( checkCreate( ) ) {
 			create( );
@@ -75,28 +71,21 @@ public class TimingManager : MonoBehaviour {
 		_oldStageIndex = _rhythmView.getStageIndex( );
 	}
 
-	void updateSlider( ) {
-		Slider offset = _copyModule.getSlider( );
-		int index = _rhythmView.getStageFirstTimingIndex( );
-		foreach ( GameObject obj in _list ) {
-			Slider slider = obj.GetComponent< Slider >( );
-			slider.maxValue = offset.maxValue;
-			slider.minValue = offset.minValue;
-			slider.value = _rhythmView.getData( index ).frame % _rhythmView.getFrameScale( );
-			slider.enabled = true;
-			index++;
-		}
-	}
-
 	void create( ) {
+		// セーブ
+		setDataFrame( );
+
 		// 現在のリストにあるものを削除に指定
 		for ( int i = 0; i < _list.Count; i++ ) {
 			_list[ i ].name = "Destory";
 		}
+
 		// 現在のフレーム
 		int frame = _rhythmView.getFrameScale( ) * _rhythmView.getStageIndex( );
+
 		// インデックス
 		int index = _rhythmManager.getIndex( );
+
 		// ステージを作成
 		while ( frame < _rhythmView.getFrameScale( ) * ( _rhythmView.getStageIndex( ) + 1 ) ) {
 			// 生成
@@ -110,6 +99,10 @@ public class TimingManager : MonoBehaviour {
 				rectTransform.sizeDelta = new Vector2( _copyModule.getWidth( ), 0f );
 				rectTransform.localPosition = Vector3.zero;
 				rectTransform.localScale = Vector3.one;
+
+				// コンポーネント追加
+				TimingModule modult = rectTransform.gameObject.AddComponent< TimingModule >( );
+				modult.initialize( index, frame, _rhythmView.getFrameScale( ), 0f, _rhythmView );
 
 				// リストに登録
 				_list.Add( rectTransform.gameObject );
@@ -135,4 +128,13 @@ public class TimingManager : MonoBehaviour {
 		return _rhythmView.getStageIndex( ) != _oldStageIndex;
 	}
 
+	/// <summary>
+	/// データを上書き
+	/// </summary>
+	private void setDataFrame( ) {
+		for ( int i = 0; i < _list.Count; i++ ) {
+			TimingModule timing = _list[ i ].GetComponent< TimingModule >( );
+			_rhythmView.setArrayDataFrame( timing.getIndex( ), timing.getCurrentFrame( ) );
+		}
+	}
 }

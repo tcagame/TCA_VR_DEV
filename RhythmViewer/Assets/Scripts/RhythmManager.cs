@@ -221,4 +221,12 @@ public class RhythmManager : MonoBehaviour {
 		_play = false;
 		_timing = false;
 	}
+
+	/// <summary>
+	/// フレームのセット
+	/// </summary>
+	/// <param name="frame"></param>
+	public void setFrame( int frame ) {
+		_frame = frame;
+	}
 }
