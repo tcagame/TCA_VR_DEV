@@ -131,7 +131,7 @@ public class TimingManager : MonoBehaviour {
 	/// <summary>
 	/// データを上書き
 	/// </summary>
-	private void setDataFrame( ) {
+	public void setDataFrame( ) {
 		for ( int i = 0; i < _list.Count; i++ ) {
 			TimingModule timing = _list[ i ].GetComponent< TimingModule >( );
 			_rhythmView.setArrayDataFrame( timing.getIndex( ), timing.getCurrentFrame( ) );

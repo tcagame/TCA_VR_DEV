@@ -52,16 +52,16 @@ public class RhythmViewer : MonoBehaviour {
 	private Slider _slider;
 
 	[ SerializeField ]
-	private RhythmManager _rhythmManager;
+	private EditRhythmManager _editRhythmManager;
 
 	[ SerializeField ]
 	private Text _text;
 	
 	[ SerializeField ]
 	private Audio _audio;
-	
+
 	[ SerializeField ]
-	private FileManager _fileManager;
+	EditFileManager _editFileManager;
 
 	private int _frame = 0;
 	
@@ -73,15 +73,25 @@ public class RhythmViewer : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake( ) {
-		_stage.setting( 0, _rhythmManager.getIndex( ), _audio.getTime( ), _rhythmManager.getFrame( ) );
+		_stage.setting( 0, _editRhythmManager.getIndex( ), _audio.getTime( ), _editRhythmManager.getFrame( ) );
 	}
 
-	void Start( ) {
-		_data = _fileManager.getRhythmData( FileManager.TAG.MELODY );
+	bool isErorr( ) {
+		bool erorr = false;
+
+		if ( _data.md == null ) {
+			_data = FileManager.getInstance( ).getRhythmData( );
+			erorr = true;
+		}
+
+		return erorr;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate( ) {
+		if ( isErorr( ) ) {
+			return;
+		}
 		updateRhythmManager( );
 		updateSlider( );
 		updateText( );
@@ -101,12 +111,12 @@ public class RhythmViewer : MonoBehaviour {
 
 	void updateRhythmManager( ) {
 		// 現在のフレームを取得
-		_frame = _rhythmManager.getFrame( );
+		_frame = _editRhythmManager.getFrame( );
 	}
 
 	void updateText( ) {
 		// フレーム数の表示
-		_text.text = _rhythmManager.getFrame( ).ToString( );  
+		_text.text = _editRhythmManager.getFrame( ).ToString( );  
 	}
 
 	void updateControl( ) {
@@ -115,21 +125,21 @@ public class RhythmViewer : MonoBehaviour {
 	
 	void updateStage( ) {
 		// ステージインデックスの確認
-		int stageIndex = _rhythmManager.getFrame( ) / getFrameScale( );
+		int stageIndex = _editRhythmManager.getFrame( ) / getFrameScale( );
 		if ( _stage._stageIndex != stageIndex ) {
 			// リピートの確認
 			if ( _repeat ) {
 				repeat( );
 			} else {
 				// 更新
-				_stage.setting( stageIndex, _rhythmManager.getIndex( ), _audio.getTime( ), _rhythmManager.getFrame( ) );
+				_stage.setting( stageIndex, _editRhythmManager.getIndex( ), _audio.getTime( ), _editRhythmManager.getFrame( ) );
 			}
 		}
 	}
 
 	void repeat( ) {
 		_audio.setTime( _stage.getAudioTime( ) );
-		_rhythmManager.setFrame( _stage.getFirstFarme( ) );
+		_editRhythmManager.setFrame( _stage.getFirstFarme( ) );
 	}
 
 	// ステージ最初のタイミング番号取得
@@ -152,10 +162,10 @@ public class RhythmViewer : MonoBehaviour {
 	/// <returns></returns>
 	public TIMING_DATA getData( int index ) {
 		// アクセス外の確認
-		if ( index >= _data.array.Length  ) {
+		if ( index >= _data.md.Length  ) {
 			return new TIMING_DATA( );
 		}
-		return _data.array[ index ];
+		return _data.md[ index ];
 	}
 
 	/// <summary>
@@ -198,7 +208,7 @@ public class RhythmViewer : MonoBehaviour {
 	/// <param name="index"></param>
 	/// <param name="frame"></param>
 	public void setArrayDataFrame( int index, int frame ) {
-		_data.array[ index ].frame = ( uint )frame;
+		_data.md[ index ].frame = ( uint )frame;
 	}
 
 	/// <summary>
@@ -208,7 +218,10 @@ public class RhythmViewer : MonoBehaviour {
 		_repeat = ( _repeat )? false : true;
 	}
 
-	public void fileSave( ) {
-		
+	/// <summary>
+	/// ファイルにセーブ
+	/// </summary>
+	public void saveFlie( ) {
+		_editFileManager.saveRhythm( _data );
 	}
 }

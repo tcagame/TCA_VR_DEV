@@ -57,11 +57,11 @@ public class RhythmManager : MonoBehaviour {
 	private DebugView _debugView;
 
 	// 変数
-	private int _index = 0;		// タイミングのインデックス
-	private int _frame = 0;		// フレーム数
+	protected int _index = 0;		// タイミングのインデックス
+	protected int _frame = 0;		// フレーム数
 	private bool _play = false;
 	private bool _timing = false;
-	private FILE_DATA.RHYTHM _melodyData;
+	private FILE_DATA.RHYTHM _data;
 
 	void Awake( ) {
 		_audioSource = GetComponent< AudioSource >( );
@@ -75,17 +75,17 @@ public class RhythmManager : MonoBehaviour {
 			return;
 		}
 		
-		updateRhythm( );
 		updateMusic( );
+		updateRhythm( );
 
 		// デバッグ表示
 		if ( _debugDraw ) {
 			// debug
 			if ( isTiming( ) ) {
-				Debug.Log( "index : " + _melodyData.array[ _index ].index + " frame : " + _melodyData.array[ _index ].frame );
+				Debug.Log( "index : " + _data.md[ _index ].index + " frame : " + _data.md[ _index ].frame );
 				Debug.Log( "next frame : " + getNextBetweenFrame( ) + " current frame : " + _frame );
 			}
-			_debugView.drawFrequency( ref _melodyData.array, getIndex( ), getFrame( ) );
+			_debugView.drawFrequency( ref _data.md, getIndex( ), getFrame( ) );
 		}
 
 		// 起動時に開始
@@ -104,9 +104,9 @@ public class RhythmManager : MonoBehaviour {
 
 		// タイミングの確認
 		try {
-			if ( _melodyData.array[ _index ].frame == ( uint )_frame ) {
+			if ( _data.md[ _index ].frame == ( uint )_frame ) {
 				_timing = true;
-				_index += ( _index < _melodyData.array.Length - 1 )? 1 : 0;	// インデックスのオーバーの抑制
+				_index += ( _index < _data.md.Length - 1 )? 1 : 0;	// インデックスのオーバーの抑制
 			} else {
 				_timing = false;
 			}
@@ -138,8 +138,8 @@ public class RhythmManager : MonoBehaviour {
 		bool error = false;
 
 		// データの取得
-		if ( _melodyData.array == null ) {
-			_melodyData = FileManager.getInstance( ).getRhythmData( FileManager.TAG.MELODY );
+		if ( _data.md == null ) {
+			_data = FileManager.getInstance( ).getRhythmData( );
 			error = true;
 		}
 		return error;
@@ -165,7 +165,7 @@ public class RhythmManager : MonoBehaviour {
 	/// 次のタイミングまでのフレーム数を返す
 	/// </summary>
 	public int getTiming( ) {
-		return ( int )_melodyData.array[ _index ].frame;
+		return ( int )_data.md[ _index ].frame;
 	}
 
 	/// <summary>
@@ -174,8 +174,8 @@ public class RhythmManager : MonoBehaviour {
 	/// <returns> 1以上( true )　0は失敗( false ) </returns>
 	public int getNextBetweenFrame( ) {
 		int frame = 0;
-		if ( _index < _melodyData.array.Length - 1 ) {
-			frame = ( int )( _melodyData.array[ _index + 1 ].frame - _melodyData.array[ _index ].frame );
+		if ( _index < _data.md.Length - 1 ) {
+			frame = ( int )( _data.md[ _index + 1 ].frame - _data.md[ _index ].frame );
 		}
 		return frame;
 	}
@@ -185,10 +185,10 @@ public class RhythmManager : MonoBehaviour {
 	/// </summary>
 	/// <returns> 1以上( true ), 0失敗( false ) </returns>
 	public int gatBeforeTiming( ) {
-		if ( _index < 1 || _index > _melodyData.array.Length - 1 ) {
+		if ( _index < 1 || _index > _data.md.Length - 1 ) {
 			return 0;
 		}
-		return ( int )_melodyData.array[ _index - 1 ].frame;
+		return ( int )_data.md[ _index - 1 ].frame;
 	}
 
 	/// <summary>
@@ -210,23 +210,5 @@ public class RhythmManager : MonoBehaviour {
 		} else {
 			return _index;
 		}
-	}
-
-	/// <summary>
-	/// リセット
-	/// </summary>
-	public void reset( ) {
-		_index = 0;		// タイミングのインデックス
-		_frame = 0;		// フレーム数
-		_play = false;
-		_timing = false;
-	}
-
-	/// <summary>
-	/// フレームのセット
-	/// </summary>
-	/// <param name="frame"></param>
-	public void setFrame( int frame ) {
-		_frame = frame;
 	}
 }

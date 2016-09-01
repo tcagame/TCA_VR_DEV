@@ -75,6 +75,10 @@
     <Compile Include="Assets\Scripts\Audio.cs" />
     <Compile Include="Assets\Scripts\BaseLine.cs" />
     <Compile Include="Assets\Scripts\Common.cs" />
+    <Compile Include="Assets\Scripts\EditFileManager.cs" />
+    <Compile Include="Assets\Scripts\EditRhythmManager.cs" />
+    <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\FileManager.cs" />
     <Compile Include="Assets\Scripts\Manager.cs" />
     <Compile Include="Assets\Scripts\Music.cs" />

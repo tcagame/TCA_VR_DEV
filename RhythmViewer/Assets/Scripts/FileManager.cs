@@ -8,10 +8,7 @@ public class FileManager : Manager< FileManager > {
 
 	#region ファイルクラス
 	[ System.Serializable ]
- 	private class File {
-		[ SerializeField ]
-		private TAG _tag = TAG.MELODY;	// タグ
-
+ 	protected class File {
 		[ SerializeField ]
 		private string _name;		// 名前
 
@@ -40,16 +37,9 @@ public class FileManager : Manager< FileManager > {
 		public bool isData( ) {
 			bool frag = false;
 			frag = ( _data.enemyGenerator.list != null )? true : false;	// エネミージェネレーターの配列確認
-			frag = ( _data.rhythnData.array != null )? true : false;		// リズム配列の確認
+			frag = ( _data.rhythm.md != null )? true : false;		// リズム配列の確認
+			//frag = ( _data.rhythm.ba != null )? true : false;		// ベース配列の確認
 			return frag;
-		}
-
-		/// <summary>
-		/// タグの取得
-		/// </summary>
-		/// <returns></returns>
-		public TAG getTag( ) {
-			return _tag;
 		}
 
 		/// <summary>
@@ -63,20 +53,14 @@ public class FileManager : Manager< FileManager > {
 	#endregion
 
 	[ SerializeField ]
-	private File[ ] _files;
-
-	public enum TAG {
-		MELODY,
-		BASE,
-	}
+	protected File _file = new File( );
 
 	// Awake関数の代わり
 	protected override void initialize( ) {
-		cheackFilesData( );
+
 	}
 
 	void FixedUpdate( ) {
-
 		cheackFilesData( );
 	}
 
@@ -84,11 +68,9 @@ public class FileManager : Manager< FileManager > {
 	/// ファイルデータのチェック
 	/// </summary>
 	void cheackFilesData( ) {
-		foreach ( File file in _files ) {
-			// データ確認
-			if ( !file.isData( ) ) {
-				loadFile( file );// ロード
-			}
+		// データ確認
+		if ( !_file.isData( ) ) {
+			loadFile( _file );// ロード
 		}
 	}
 
@@ -104,7 +86,7 @@ public class FileManager : Manager< FileManager > {
 			FILE_DATA data = new FILE_DATA( );
 
 			// リズムデータの取得
-			data.rhythnData = getLoadFileRhythmData( ref sr );
+			data.rhythm = getLoadFileRhythmData( ref sr );
 				
 			// エネミーデータの取得
 			data.enemyGenerator = getLoadFileEnemyGeneratorData( ref sr );
@@ -134,7 +116,7 @@ public class FileManager : Manager< FileManager > {
 		int size = int.Parse( values[ 0 ] );
 
 		// 配列確保
-		data.array = new TIMING_DATA[ size ];
+		data.md = new TIMING_DATA[ size ];
 
 		for ( int i = 0; i < size; i++ ) {
 			// ファイルから一行読み込む
@@ -144,10 +126,10 @@ public class FileManager : Manager< FileManager > {
 			values = str.Split( ',' );
 
 			// インデックスの取得
-			data.array[ i ].index = int.Parse( values[ 0 ] );
+			data.md[ i ].index = int.Parse( values[ 0 ] );
 
 			// 時間の取得
-			data.array[ i ].frame = uint.Parse( values[ 1 ] );
+			data.md[ i ].frame = uint.Parse( values[ 1 ] );
 		}
 
 		return data;
@@ -205,13 +187,10 @@ public class FileManager : Manager< FileManager > {
 	/// ファイルデータの取得
 	/// </summary>
 	/// <returns></returns>
-	private FILE_DATA getFileData( TAG tag ) {
+	private FILE_DATA getFileData( ) {
 		FILE_DATA data = new FILE_DATA( );
-		foreach ( File file in _files ) {
-			if ( file.getTag( ) == tag ) {
-				data = file.getData( );
-				break;
-			}
+		if ( _file.isData( ) ) {
+			data = _file.getData( );
 		}
 
 		return data;
@@ -221,15 +200,15 @@ public class FileManager : Manager< FileManager > {
 	/// リズムデータの取得
 	/// </summary>
 	/// <returns></returns>
-	public FILE_DATA.RHYTHM getRhythmData( TAG tag ) {
-		return getFileData( tag ).rhythnData;
+	public FILE_DATA.RHYTHM getRhythmData( ) {
+		return getFileData( ).rhythm;
 	}
 
-	public FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA getRhythmForNum( TAG tag,int num ) {
-		return getFileData( tag ).enemyGenerator.list[ num ];
+	public FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA getRhythmForNum( int num ) {
+		return getFileData( ).enemyGenerator.list[ num ];
 	}
 
-	public int getRhythmCount( TAG tag ) {
-		return getFileData( tag ).enemyGenerator.list.Count;
+	public int getRhythmCount( ) {
+		return getFileData( ).enemyGenerator.list.Count;
 	}
 }

@@ -68,6 +68,10 @@ public class Audio : MonoBehaviour {
 	/// <param name="index"> クリップの番号 </param>
 	/// <param name="type"> 再生タイプ </param>
 	public void play( ) {
+		// 停止か確認
+		if ( _pause ) {
+			return;
+		}
 		// 2重再生の確認
 		if ( isPlay(  ) ) {
 			return;

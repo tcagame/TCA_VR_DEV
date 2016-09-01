@@ -25,7 +25,6 @@ public class RhythmRecoder : MonoBehaviour {
 	// 変数
 	private bool _requestRecord = false;	// 記録のリクエストフラグ
 	private List< TIMING_DATA > _list = new List< TIMING_DATA >( );
-	private FILE_DATA.RHYTHM _loadFileData;
 
 	// Use this for initialization
 	void Awake( ) {
@@ -34,8 +33,6 @@ public class RhythmRecoder : MonoBehaviour {
             _resolution = 256;
 			Debug.LogError( "解像度を2のべき乗に設定してください。" );
         }
-		
-		//FileManager.getInstance( ).loadFile( _audioSource.clip.name );
 	}
 	
 	// Update is called once per frame
