@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Common;
 using UnityEngine.UI;
 using Common;
+using UnityEngine.EventSystems;
 
 public class RhythmViewer : MonoBehaviour {
 
@@ -69,7 +71,7 @@ public class RhythmViewer : MonoBehaviour {
 	
 	private bool _repeat = false;
 
-	private FILE_DATA.RHYTHM _data;
+	private List< TIMING_DATA > _data;
 
 	// Use this for initialization
 	void Awake( ) {
@@ -79,8 +81,8 @@ public class RhythmViewer : MonoBehaviour {
 	bool isErorr( ) {
 		bool erorr = false;
 
-		if ( _data.md == null ) {
-			_data = FileManager.getInstance( ).getRhythmData( );
+		if ( _data == null ) {
+			_data = _editFileManager.getRhythmData( );
 			erorr = true;
 		}
 
@@ -120,7 +122,9 @@ public class RhythmViewer : MonoBehaviour {
 	}
 
 	void updateControl( ) {
-		// 再生位置の取得
+		// 選択中のGameObjectを取得
+		GameObject go = EventSystem.current.currentSelectedGameObject;
+		Debug.Log( go.name );
 	}
 	
 	void updateStage( ) {
@@ -162,10 +166,10 @@ public class RhythmViewer : MonoBehaviour {
 	/// <returns></returns>
 	public TIMING_DATA getData( int index ) {
 		// アクセス外の確認
-		if ( index >= _data.md.Length  ) {
+		if ( index >= _data.Count  ) {
 			return new TIMING_DATA( );
 		}
-		return _data.md[ index ];
+		return _data[ index ];
 	}
 
 	/// <summary>
@@ -208,7 +212,12 @@ public class RhythmViewer : MonoBehaviour {
 	/// <param name="index"></param>
 	/// <param name="frame"></param>
 	public void setArrayDataFrame( int index, int frame ) {
-		_data.md[ index ].frame = ( uint )frame;
+		if ( _data.Count < index || index < 0 ) {
+			return;
+		}
+		TIMING_DATA data = _data[ index ];
+		data.frame = ( uint )frame;
+		_data[ index ] = data;
 	}
 
 	/// <summary>

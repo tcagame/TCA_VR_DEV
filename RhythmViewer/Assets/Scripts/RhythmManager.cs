@@ -60,8 +60,8 @@ public class RhythmManager : MonoBehaviour {
 	protected int _index = 0;		// タイミングのインデックス
 	protected int _frame = 0;		// フレーム数
 	private bool _play = false;
-	private bool _timing = false;
-	private FILE_DATA.RHYTHM _data;
+	protected bool _timing = false;
+	protected FILE_DATA.RHYTHM _data;
 
 	void Awake( ) {
 		_audioSource = GetComponent< AudioSource >( );
@@ -96,7 +96,7 @@ public class RhythmManager : MonoBehaviour {
 		
 	}
 
-	void updateRhythm( ) {
+	protected virtual void updateRhythm( ) {
 		// 実行確認
 		if ( !isPlay( ) ) {
 			return;
@@ -134,7 +134,7 @@ public class RhythmManager : MonoBehaviour {
 	/// エラーのチェック
 	/// </summary>
 	/// <returns></returns>
-	private bool isError( ) {
+	protected virtual bool isError( ) {
 		bool error = false;
 
 		// データの取得

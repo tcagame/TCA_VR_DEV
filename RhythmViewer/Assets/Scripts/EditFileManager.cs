@@ -1,22 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Common;
 
 public class EditFileManager : FileManager {
 
-	public bool saveRhythm( FILE_DATA.RHYTHM data ) {
+
+	// Awake関数の代わり
+	protected override void initialize( ) {
+
+	}
+
+	public bool saveRhythm( List< TIMING_DATA > data ) {
 		try {
 			StreamWriter sw = new StreamWriter( Application.dataPath + "/" + _file.getName( ) + ".csv", false );
 
 			// 個数の書き込み
-			sw.WriteLine( data.md.Length );
+			sw.WriteLine( data.Count );
 
 			// タイミングデータを書き込み
-			for ( int i = 0; i < data.md.Length; i++ ) {
-				sw.Write( data.md[ i ].index );
+			for ( int i = 0; i < data.Count; i++ ) {
+				sw.Write( data[ i ].index );
 				sw.Write( "," );
-				sw.WriteLine( data.md[ i ].frame );
+				sw.WriteLine( data[ i ].frame );
 			}
 
 			// エネミーデータの書き込み
@@ -58,5 +65,12 @@ public class EditFileManager : FileManager {
 			return false;
 		}
 
+	}
+
+	public new List< TIMING_DATA > getRhythmData( ) {
+		FILE_DATA.RHYTHM data = _file.getData( ).rhythm;
+		List< TIMING_DATA > tmp = new List< TIMING_DATA >( );
+		tmp.AddRange( data.md );
+		return tmp;
 	}
 }

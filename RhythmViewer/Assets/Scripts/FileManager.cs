@@ -200,7 +200,7 @@ public class FileManager : Manager< FileManager > {
 	/// リズムデータの取得
 	/// </summary>
 	/// <returns></returns>
-	public FILE_DATA.RHYTHM getRhythmData( ) {
+	public virtual FILE_DATA.RHYTHM getRhythmData( ) {
 		return getFileData( ).rhythm;
 	}
 
