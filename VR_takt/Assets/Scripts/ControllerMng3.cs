@@ -76,7 +76,7 @@ public class ControllerMng3 : MonoBehaviour {
                 SetShakeCTRLTime();
 
                 _base_GO_List.Add(_base_GO);                    //味方cubeを配列登録
-                go.layer = LayerMask.NameToLayer("Nohit");   //敵cubeの衝突判定を無効にするため、レイヤーマスク値を変更
+                go.layer = LayerMask.NameToLayer("nohit");   //敵cubeの衝突判定を無効にするため、レイヤーマスク値を変更
 
                 joint = null;
                 /*
