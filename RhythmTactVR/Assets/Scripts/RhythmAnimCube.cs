@@ -58,7 +58,7 @@ public class RhythmAnimCube : MonoBehaviour {
 		if(nextframe != 0)
 			return _speed / (float)nextframe;
 		else
-			return 0f;
+			return _animspeed;
     }
 
     //アニメーションのスピード変更
