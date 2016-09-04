@@ -73,4 +73,32 @@ public class EditFileManager : FileManager {
 		tmp.AddRange( data.md );
 		return tmp;
 	}
+
+	/// <summary>
+	/// ファイルのロード
+	/// </summary>
+	/// <returns></returns>
+	public bool loadFile( ) {
+		try {
+			StreamReader sr = new StreamReader( Application.dataPath + "/" + _file.getName( ) + ".csv" );
+
+			FILE_DATA data = new FILE_DATA( );
+
+			// リズムデータの取得
+			data.rhythm = getLoadFileRhythmData( ref sr );
+				
+			// エネミーデータの取得
+			data.enemyGenerator = getLoadFileEnemyGeneratorData( ref sr );
+				
+			sr.Close( );
+
+			// データ上書き
+			_file.setData( data );
+
+			return true;
+		} catch {
+			Debug.LogError( "Missing Load File..." );
+			return false;
+		}
+	}
 }

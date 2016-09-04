@@ -82,4 +82,12 @@ public class TimingModule : MonoBehaviour {
 	public int getIndex( ) {
 		return _index;
 	}
+
+	/// <summary>
+	/// インデックスのセット
+	/// </summary>
+	/// <param name="index"></param>
+	public void setIndex( int index ) {
+		_index = index;
+	}
 }

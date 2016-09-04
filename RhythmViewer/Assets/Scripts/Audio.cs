@@ -11,6 +11,17 @@ public class Audio : MonoBehaviour {
 	[ SerializeField ]
 	private bool _loop = false;
 
+	// インスタンス
+	[ SerializeField ]
+	protected AudioSource _target;
+
+	public bool _drawFrequency = false;
+
+	public FFTWindow _FFTWinMode = FFTWindow.Hamming;	// フーリエ変換モード
+
+	[ SerializeField ]
+	private int _resolution = 256;	// 解像度(2のべき乗で設定)
+
 	private bool _pause = false;	// フェーズフラグ
 
 	protected enum MODE {
@@ -18,9 +29,6 @@ public class Audio : MonoBehaviour {
 		AUDIO_2D,
 	}
 
-	// インスタンス
-	[ SerializeField ]
-	protected AudioSource _target;
 
 	void Awake( ) {
 		// オーディオの設定
@@ -32,6 +40,42 @@ public class Audio : MonoBehaviour {
 
 		// 継承先の初期化
 		init( );
+	}
+
+	void FixedUpdate( ) {
+		// 周波数の表示
+		if ( _drawFrequency ) {
+			float[ ] frequency = _target.GetSpectrumData( _resolution, 0, _FFTWinMode );
+			drawFrequency( ref frequency );
+		}
+	}
+
+	/// <summary>
+	/// 周波数の表示
+	/// </summary>
+	/// <param name="data"> 周波数のデータ配列 </param>
+	void drawFrequency( ref float[ ] data ) {
+		int scale = 1;	// 表示スケール
+		scale = ( scale < 1 )? 1 : scale;
+		Vector3 pos = transform.position;
+		for ( int i = 1; i < data.Length / scale - 1; i++ ) {
+            Debug.DrawLine(
+                    new Vector3( i - 1, data[ i ] + 10, 0 ) + pos, 
+                    new Vector3( i, data[ i + 1 ] + 10, 0 ) + pos, 
+                    Color.red );
+            Debug.DrawLine(
+                    new Vector3( i - 1, Mathf.Log( data[ i - 1 ] ) + 10, 2 ) + pos, 
+                    new Vector3( i, Mathf.Log( data[ i ] ) + 10, 2 ) + pos, 
+                    Color.cyan );
+            Debug.DrawLine(
+                    new Vector3( Mathf.Log( i - 1 ), data[ i - 1 ] - 10, 1 ) + pos, 
+                    new Vector3( Mathf.Log( i ), data[ i ] - 10, 1 ) + pos, 
+                    Color.green );
+            Debug.DrawLine(
+                    new Vector3( Mathf.Log( i - 1 ), Mathf.Log( data[ i - 1 ] ), 3 ) + pos, 
+                    new Vector3( Mathf.Log( i ), Mathf.Log( data[ i ] ), 3 ) + pos, 
+                    Color.yellow );
+        }
 	}
 
 	// 継承先でのAwake関数のかわり
