@@ -7,16 +7,13 @@ using Common;
 public class RhythmAnimCube : MonoBehaviour {
 
 	public RhythmManager rhythmmanager;
-
     public GameObject[] obj;
-
     public Animator[] animator;
+    public AnimationClip[] animationclip;
 
     private float _animspeed;
-
-	private bool WalkFlag = true;
-
-    public int _speed;
+    private bool WalkFlag = true;
+    private int base_frame = 60;
 
 	// Use this for initialization
 	void Start () {
@@ -31,8 +28,7 @@ public class RhythmAnimCube : MonoBehaviour {
     {
 		if ( rhythmmanager.isTiming() )
 		{
-			_animspeed = framespeed( rhythmmanager.getNextBetweenFrame() );
-		    Speed( _animspeed );
+            Speed( rhythmmanager.getNextBetweenFrame( ) );
 			animator[0].SetTrigger("OnceTrigger");
 			if( WalkFlag )
 			{
@@ -46,49 +42,22 @@ public class RhythmAnimCube : MonoBehaviour {
 		}
     }
 
-    //インデックスに要素があるかの確認
-    public bool IsDefinedAt<T>( IList<T> self, int index )
-    {
-        return index < self.Count;
-    }
-    
-    //リズム配列からスピードを計算
-    public float framespeed ( int nextframe )
-	{
-		if(nextframe != 0)
-			return _speed / (float)nextframe;
-		else
-			return _animspeed;
-    }
-
     //アニメーションのスピード変更
-    void Speed( float speed )
+    void Speed( int nextframe )
     {
-        for(int i = 0; i < obj.Length; i++)
-            animator[ i ].speed = speed;
-	}
-
-    /*//再生停止の設定
-    void Stop( int array )
-    {
-        for(int i = 0; i < obj.Length; i++) {
-            if( !IsDefinedAt<bool>( flag, array ) )
-                flag.Add( true );
-            else
-            {
-                if( !flag[ array ] )
-                {
-                    animator[ i ].Stop();
-                    animator[ i ].enabled = false;
-                }
-                else if( flag[ array ] )
-                {
-                
-                    animator[ i ].enabled = true;
-                }
-            }
-            
+		
+		if( nextframe > 500 ) {
+			return;
+		}
+        if ( nextframe != 0 ) {
+            for (int i = 0; i < obj.Length; i++){
+				if( nextframe < 35 ) {
+					animator[ i ].speed = 2.0f;
+				} else {
+					animator[ i ].speed = ( animationclip[ i ].length * base_frame ) / (float)nextframe;
+				}
+			}
         }
-    }*/
+	}
 
 }

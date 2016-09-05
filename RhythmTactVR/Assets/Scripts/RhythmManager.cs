@@ -177,6 +177,9 @@ public class RhythmManager : MonoBehaviour {
 		if ( _index < _data.md.Length - 1 ) {
 			frame = ( int )( _data.md[ _index + 1 ].frame - _data.md[ _index ].frame );
 		}
+		if ( isTiming( ) ) {
+			frame = ( int )( _data.md[ _index ].frame - _data.md[ _index - 1 ].frame );
+		}
 		return frame;
 	}
 
