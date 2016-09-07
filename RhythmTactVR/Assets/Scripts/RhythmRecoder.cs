@@ -11,8 +11,8 @@ public class RhythmRecoder : MonoBehaviour {
 	private RhythmManager _rhythmMgr;
 
 	[ SerializeField ]
-	private AudioSource _audioSource;
 
+	private AudioSource _audioSource;
 	[ SerializeField ]
 	private FFTWindow _FFTWinMode = FFTWindow.Hamming;	// フーリエ変換モード
 
@@ -20,11 +20,13 @@ public class RhythmRecoder : MonoBehaviour {
 
 	public bool _drawFrequency = false;	// 周波数データの表示
 	
-	
+    [ SerializeField ]
+    RhythmManager.RHYTHM_TAG _rhythm_tag = RhythmManager.RHYTHM_TAG.MELODY;
 
 	// 変数
 	private bool _requestRecord = false;	// 記録のリクエストフラグ
-	private List< TIMING_DATA > _list = new List< TIMING_DATA >( );
+	private List< TIMING_DATA > _melody_list = new List< TIMING_DATA >( );
+	private List< TIMING_DATA > _beat_list   = new List< TIMING_DATA >( );
 
 	// Use this for initialization
 	void Awake( ) {
@@ -44,8 +46,20 @@ public class RhythmRecoder : MonoBehaviour {
 
 		// ファイル書き出し
 		if ( Input.GetKeyDown( KeyCode.F1 ) ) {
-			saveFile( _audioSource.clip.name, ref _list );
+			saveFile( _audioSource.clip.name, ref _melody_list, ref _beat_list );
 			Debug.Log( "Save" );
+		}
+
+        // モードチェンジ
+        if ( Input.GetKeyDown( KeyCode.F2 ) ) {
+			switch ( _rhythm_tag ) {
+                case RhythmManager.RHYTHM_TAG.MELODY:
+                    _rhythm_tag = RhythmManager.RHYTHM_TAG.BEAT;
+                    break;
+                case RhythmManager.RHYTHM_TAG.BEAT:
+                    _rhythm_tag = RhythmManager.RHYTHM_TAG.MELODY;
+                    break;
+            }
 		}
 
 	}
@@ -53,16 +67,34 @@ public class RhythmRecoder : MonoBehaviour {
 	void FixedUpdate( ) {
 		// 記録
 		if ( _requestRecord ) {
-			// データに記録
-			TIMING_DATA data;
-			data.index = _list.Count;
-			data.frame = ( uint )_rhythmMgr.getFrame( );
+            switch ( _rhythm_tag ) {
+                case RhythmManager.RHYTHM_TAG.MELODY:
+                    {
+			            // データに記録
+			            TIMING_DATA data;
+			            data.index = _melody_list.Count;
+			            data.frame = ( uint )_rhythmMgr.getFrame( );
 
-			// 追加
-			_list.Add( data );
+			            // 追加
+			            _melody_list.Add( data );
 
-			Debug.Log( data );	// debug
+			            Debug.Log( data );	// debug
+                    }
+                    break;
+                case RhythmManager.RHYTHM_TAG.BEAT:
+                    {
+			            // データに記録
+			            TIMING_DATA data;
+			            data.index = _beat_list.Count;
+			            data.frame = ( uint )_rhythmMgr.getFrame( );
 
+			            // 追加
+			            _beat_list.Add( data );
+
+			            Debug.Log( data );	// debug
+                    }
+                    break;
+            }
 			// フラグ解除
 			_requestRecord = false;
 		}
@@ -107,20 +139,47 @@ public class RhythmRecoder : MonoBehaviour {
 	/// </summary>
 	/// <param name="fileName"> ファイルの名前 </param>
 	/// <param name="list"> ファイルデータ型のリスト </param>
-	public bool saveFile( string fileName, ref List< TIMING_DATA > list ) {
+	public bool saveFile( string fileName, ref List< TIMING_DATA > melody_list, ref List< TIMING_DATA > beat_list ) {
 		try {
 			StreamWriter sw = new StreamWriter( Application.dataPath + "/" + fileName + ".csv", false );
 
 			// 個数の書き込み
-			sw.WriteLine( list.Count );
+			sw.Write( melody_list.Count );
+			sw.Write( "," );
+			sw.Write( "," );
+			sw.WriteLine( beat_list.Count );
 
-			for ( int i = 0; i < list.Count; i++ ) {
-					
-				{// タイミングデータを書き込み
-					sw.Write( list[ i ].index );
-					sw.Write( "," );
-					sw.WriteLine( list[ i ].frame );
-				}
+            int length = 0;
+            // 大きいほうを設定
+            if ( melody_list.Count > beat_list.Count ) {
+                length = melody_list.Count;
+            } else if ( beat_list.Count > melody_list.Count ) {
+                length = beat_list.Count;
+            }
+
+			for ( int i = 0; i < length; i++ ) {
+                // タイミングデータを書き込み
+                if ( melody_list.Count < length && i >= melody_list.Count ) {
+                    sw.Write( "," );
+                    sw.Write( "," );
+                    sw.Write( beat_list[ i ].index );
+                    sw.Write( "," );
+                    sw.WriteLine( beat_list[ i ].frame );
+                } else if ( beat_list.Count < length && i >= beat_list.Count ) {
+                    sw.Write( beat_list[ i ].index );
+                    sw.Write( "," );
+                    sw.Write( beat_list[ i ].frame );
+                    sw.Write( "," );
+                    sw.WriteLine( "," );
+                } else {
+				    sw.Write( melody_list[ i ].index );
+				    sw.Write( "," );
+				    sw.Write( melody_list[ i ].frame );
+				    sw.Write( "," );
+				    sw.Write( beat_list[ i ].index );
+				    sw.Write( "," );
+				    sw.WriteLine( beat_list[ i ].frame );
+                }
 			}
 			sw.Close( );
 

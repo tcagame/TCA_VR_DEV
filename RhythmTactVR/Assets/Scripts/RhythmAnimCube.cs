@@ -26,9 +26,9 @@ public class RhythmAnimCube : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-		if ( rhythmmanager.isTiming() )
+		if ( rhythmmanager.isTiming( RhythmManager.RHYTHM_TAG.MELODY ) )
 		{
-            Speed( rhythmmanager.getNextBetweenFrame( ) );
+            Speed( rhythmmanager.getNextBetweenFrame( RhythmManager.RHYTHM_TAG.MELODY ) );
 			animator[0].SetTrigger("OnceTrigger");
 			if( WalkFlag )
 			{

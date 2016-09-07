@@ -45,14 +45,6 @@ public class RhythmViewer : MonoBehaviour {
 		public int getFirstFarme( ) {
 			return _firstFrame;
 		}
-
-		/// <summary>
-		/// ステージ最初のインデックスを取得
-		/// </summary>
-		/// <returns></returns>
-		public int getFirstIndex( ) {
-			return _firstTimingIndex;
-		}
 	}
 	#endregion
 
@@ -71,10 +63,7 @@ public class RhythmViewer : MonoBehaviour {
 	private Audio _audio;
 
 	[ SerializeField ]
-	private EditFileManager _editFileManager;
-
-	[ SerializeField ]
-	private TimingManager _timingManager;
+	EditFileManager _editFileManager;
 
 	private int _frame = 0;
 	
@@ -108,8 +97,8 @@ public class RhythmViewer : MonoBehaviour {
 		updateRhythmManager( );
 		updateSlider( );
 		updateText( );
-		updateStage( );
 		updateControl( );
+		updateStage( );
 	}
 
 	void updateSlider( ) {
@@ -134,22 +123,8 @@ public class RhythmViewer : MonoBehaviour {
 
 	void updateControl( ) {
 		// 選択中のGameObjectを取得
-		GameObject target = EventSystem.current.currentSelectedGameObject;
-
-		// 削除
-		if ( Input.GetKeyDown( KeyCode.Delete ) ) {
-			try {
-				TimingModule module = target.GetComponent< TimingModule >( );
-				_timingManager.deleteTiming( module.getIndex( ) );
-			} catch {
-				Debug.LogError( "Not get TimingModule Component..." );
-			}
-		}
-
-		// 追加
-		if ( Input.GetKeyDown( KeyCode.Space ) ) {
-			_timingManager.addArray( );
-		}
+		GameObject go = EventSystem.current.currentSelectedGameObject;
+		Debug.Log( go.name );
 	}
 	
 	void updateStage( ) {
@@ -160,8 +135,8 @@ public class RhythmViewer : MonoBehaviour {
 			if ( _repeat ) {
 				repeat( );
 			} else {
-				// 更新 
-				_stage.setting( stageIndex, _editRhythmManager.getIndex( ) + _timingManager.getAddToDiff( ), _audio.getTime( ), _editRhythmManager.getFrame( ) );
+				// 更新
+				_stage.setting( stageIndex, _editRhythmManager.getIndex( ), _audio.getTime( ), _editRhythmManager.getFrame( ) );
 			}
 		}
 	}
@@ -169,17 +144,11 @@ public class RhythmViewer : MonoBehaviour {
 	void repeat( ) {
 		_audio.setTime( _stage.getAudioTime( ) );
 		_editRhythmManager.setFrame( _stage.getFirstFarme( ) );
-		_editRhythmManager.setIndex( _stage.getFirstIndex( ) );
 	}
 
 	// ステージ最初のタイミング番号取得
 	public int getStageFirstTimingIndex( ) {
 		return _stage._firstTimingIndex;
-	}
-
-	// ステージ最初のフレーム数を取得
-	public int getStageFirstFrame( ) {
-		return _stage._firstFrame;
 	}
 
 	/// <summary>
@@ -263,65 +232,5 @@ public class RhythmViewer : MonoBehaviour {
 	/// </summary>
 	public void saveFlie( ) {
 		_editFileManager.saveRhythm( _data );
-		_editRhythmManager.setData( _data.ToArray( ) );
-		//_editRhythmManager.reloadData( );	// リズムマネージャーのデータをファイルから読み込む
-		//_editFileManager.loadFile( );	// ファイルのロード
-	}
-
-	/// <summary>
-	/// 配列の追加
-	/// </summary>
-	/// <param name="num"> 個数 </param>
-	/// <param name="index"> 割り込みする配列番号 </param>
-	public void addArrayData( int num, int index ) {
-		for ( int i = 0; i < num; i++ ) {
-			_data.Insert( index + i, new TIMING_DATA( ) );
-		}
-		
-		// 整頓
-		setOderlinessIndex( );
-
-		// リズムマネージャーのインデックスを繰り上げ
-		_editRhythmManager.addIndex( num );
-	}
-
-	public void deleteArrayDataRange( int num, int index ) {
-		for ( int i = 0; i < num; i++ ) {
-			_data.RemoveAt( i + index );
-		}
-		
-		// 整頓
-		setOderlinessIndex( );
-
-		
-		// リズムマネージャーのインデックスを繰り上げ
-		_editRhythmManager.addIndex( -num );
-	}
-
-	/// <summary>
-	/// インデックス番号の整列化
-	/// </summary>
-	private void setOderlinessIndex( ) {
-		for ( int i = 0; i < _data.Count; i++ ) {
-			TIMING_DATA data = _data[ i ];
-			data.index = i;
-			_data[ i ] = data;
-		}
-
-	}
-
-	private void addStageFirstIndex( int add ) {
-		_stage._firstTimingIndex += add;
-	}
-
-	public TIMING_DATA[ ] getRhythmData( ) {
-		return _data.ToArray( );
-	}
-
-	/// <summary>
-	/// リズムマネージャーにデータを更新させる
-	/// </summary>
-	public void setDataToRhythmManager( ) {
-		_editRhythmManager.setData( _data.ToArray( ) );
 	}
 }

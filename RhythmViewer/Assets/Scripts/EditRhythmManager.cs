@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common;
@@ -7,9 +6,9 @@ using Common;
 public class EditRhythmManager : RhythmManager {
 
 	[ SerializeField ]
-	private RhythmViewer _rhythmViewer;
+	private EditFileManager _editFileManager;
 
-	//protected new TIMING_DATA[ ] _data;
+	protected new List< TIMING_DATA > _data;
 	
 	public void setFrame( int frame ) {
 		_frame = frame;
@@ -28,8 +27,8 @@ public class EditRhythmManager : RhythmManager {
 		bool error = false;
 
 		// データの取得
-		if ( _data.md == null ) {
-			_data.md = _rhythmViewer.getRhythmData( );
+		if ( _data == null ) {
+			_data = _editFileManager.getRhythmData( );
 			error = true;
 		}
 		return error;
@@ -43,9 +42,9 @@ public class EditRhythmManager : RhythmManager {
 
 		// タイミングの確認
 		try {
-			if ( _data.md[ _index ].frame == ( uint )_frame ) {
+			if ( _data[ _index ].frame == ( uint )_frame ) {
 				_timing = true;
-				_index += ( _index < _data.md.Length - 1 )? 1 : 0;	// インデックスのオーバーの抑制
+				_index += ( _index < _data.Count - 1 )? 1 : 0;	// インデックスのオーバーの抑制
 			} else {
 				_timing = false;
 			}
@@ -55,43 +54,5 @@ public class EditRhythmManager : RhythmManager {
 		
 		// フレームのカウント
 		_frame++;
-	}
-
-	// リロード
-	public void reloadData( ) {
-		Array.Clear( _data.md, 0, _data.md.Length );
-	}
-
-	// データのセット
-	public void setData( TIMING_DATA[ ] data ) {
-		_data.md = new TIMING_DATA[ data.Length ];
-		for ( int i = 0; i < data.Length; i++ ) {
-			_data.md[ i ] = data[ i ];
-		}
-	}
-
-	public int getIndex( ) {
-		// タイミング時の確認
-		if ( isTiming( ) ) {
-			return _index - 1;	// 自動くり上げの都合で	-1をする。
-		} else {
-			return _index;
-		}
-	}
-
-	/// <summary>
-	/// データの総数
-	/// </summary>
-	/// <returns></returns>
-	public int getDataCount( ) {
-		return _data.md.Length;
-	}
-
-	/// <summary>
-	/// インデックスの加算
-	/// </summary>
-	/// <param name="value"></param>
-	public void addIndex( int value ) {
-		_index += value;
 	}
  }

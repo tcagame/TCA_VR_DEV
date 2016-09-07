@@ -15,7 +15,7 @@ namespace Common {
 		#region リズム 構造体
 		public struct RHYTHM {
 			public TIMING_DATA[ ] md;	// メロディー配列
-			public TIMING_DATA[ ] ba;	// ベース配列
+			public TIMING_DATA[ ] be;	// ビート配列
 		}
 		#endregion
 		
@@ -37,7 +37,7 @@ namespace Common {
 		#endregion
 
 		public RHYTHM rhythm;
-		public ENEMY_GENERATOR enemyGenerator;
+        public ENEMY_GENERATOR enemyGenerator;
 	}
 	
 }

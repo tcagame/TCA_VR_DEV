@@ -79,7 +79,7 @@ public class FileManager : Manager< FileManager > {
 	/// </summary>
 	/// <param name="fileName"> ファイルの名前 </param>
 	/// <param name="list"> ファイルデータ型のリスト </param>
-	protected bool loadFile( File file ) {
+	private bool loadFile( File file ) {
 		try {
 			StreamReader sr = new StreamReader( "../" + file.getName( ) + ".csv" );
 
@@ -107,7 +107,7 @@ public class FileManager : Manager< FileManager > {
 	/// ロードしたファイルからリズムデータを取得
 	/// </summary>
 	/// <returns></returns>
-	protected FILE_DATA.RHYTHM getLoadFileRhythmData( ref StreamReader sr ) {
+	private FILE_DATA.RHYTHM getLoadFileRhythmData( ref StreamReader sr ) {
 		FILE_DATA.RHYTHM data = new FILE_DATA.RHYTHM( );
 
 		// 個数の取得
@@ -139,7 +139,7 @@ public class FileManager : Manager< FileManager > {
 	/// ロードしたファイルからエネミージェネレーターのデータを取得
 	/// </summary>
 	/// <returns></returns>
-	protected FILE_DATA.ENEMY_GENERATOR getLoadFileEnemyGeneratorData( ref StreamReader sr ) {
+	private FILE_DATA.ENEMY_GENERATOR getLoadFileEnemyGeneratorData( ref StreamReader sr ) {
 		FILE_DATA.ENEMY_GENERATOR data = new FILE_DATA.ENEMY_GENERATOR( );
 
 		// リストの確保

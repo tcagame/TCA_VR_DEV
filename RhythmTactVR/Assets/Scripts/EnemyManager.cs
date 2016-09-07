@@ -12,6 +12,8 @@ public class EnemyManager : MonoBehaviour {
 	[ SerializeField ]
 	private RhythmManager _rhythm_manager;
 
+    const float TARGET_DISTANCE = 5.0f;
+
 	public List<GameObject> _enemy = new List<GameObject>( );
 	public Transform _target;
 
@@ -34,7 +36,7 @@ public class EnemyManager : MonoBehaviour {
 		// リズムマネジャーに聞く処理
 		/*
 		 */
-		if ( Input.GetMouseButtonDown( 0 ) || _rhythm_manager.isTiming( ) == true ) {
+		if ( Input.GetMouseButtonDown( 0 ) || _rhythm_manager.isTiming( RhythmManager.RHYTHM_TAG.MELODY ) == true ) {
 			// Smallキューブの移動
 			Move( );
 			// 遅延キューブを発射させる
@@ -48,7 +50,7 @@ public class EnemyManager : MonoBehaviour {
 			// キューブの生成
 			if ( _create_count < _file_manager.getRhythmCount( ) ) {
 				if ( ( _comming_rhyrhm_num == _file_manager.getRhythmForNum( _create_count ).rhythm_num ) ||
-					 ( _rhythm_manager.getIndex( ) == _file_manager.getRhythmForNum( _create_count ).rhythm_num ) ) {
+					 ( _rhythm_manager.getIndex( RhythmManager.RHYTHM_TAG.MELODY ) == _file_manager.getRhythmForNum( _create_count ).rhythm_num ) ) {
 					Create( _create_count );
 					_create_count++;
 				}
@@ -80,10 +82,35 @@ public class EnemyManager : MonoBehaviour {
 			
 		// ターゲットの設定
 		Vector3 pos = _target.position;
-		if ( obj.GetComponent<Enemy>( ).getTargetType( ) == Enemy.TARGET_TYPE.RIGHT_ARM ) {
-			pos.x += 2.0f;
-		} else if ( obj.GetComponent<Enemy>( ).getTargetType( ) == Enemy.TARGET_TYPE.LEFT_ARM ) {
-			pos.x -= 2.0f;
+        switch ( obj.GetComponent< Enemy >( ).getTargetType( ) ) {
+            case Enemy.TARGET_TYPE.NORTH:
+                pos.y += TARGET_DISTANCE;
+                break;
+            case Enemy.TARGET_TYPE.NORTH_EAST:
+                pos.x += TARGET_DISTANCE;
+                pos.y += TARGET_DISTANCE;
+                break;
+            case Enemy.TARGET_TYPE.EAST:
+                pos.x += TARGET_DISTANCE;
+                break;
+            case Enemy.TARGET_TYPE.SOUTH_EAST:
+                pos.x += TARGET_DISTANCE;
+                pos.y -= TARGET_DISTANCE;
+                break;
+            case Enemy.TARGET_TYPE.SOUTH:
+                pos.y -= TARGET_DISTANCE;
+                break;
+            case Enemy.TARGET_TYPE.SOUTH_WEST:
+                pos.x -= TARGET_DISTANCE;
+                pos.y -= TARGET_DISTANCE;
+                break;
+            case Enemy.TARGET_TYPE.WEST:
+                pos.x -= TARGET_DISTANCE;
+                break;
+            case Enemy.TARGET_TYPE.NORTH_WEST:
+                pos.x -= TARGET_DISTANCE;
+                pos.y += TARGET_DISTANCE;
+                break;
 		}
 		// 打ち出す方向の設定
 		Vector3 vec = pos - obj.transform.position;

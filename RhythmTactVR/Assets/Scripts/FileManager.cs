@@ -36,9 +36,9 @@ public class FileManager : Manager< FileManager > {
 		/// <returns></returns>
 		public bool isData( ) {
 			bool frag = false;
-			frag = ( _data.enemyGenerator.list != null )? true : false;	// エネミージェネレーターの配列確認
-			frag = ( _data.rhythm.md != null )? true : false;		// リズム配列の確認
-			//frag = ( _data.rhythm.ba != null )? true : false;		// ベース配列の確認
+            frag = (_data.enemyGenerator.list != null) ? true : false;	// エネミージェネレーターの配列確認
+			frag = ( _data.rhythm.md != null )? true : false;		    // リズム配列の確認
+			frag = ( _data.rhythm.be != null )? true : false;		    // ベース配列の確認
 			return frag;
 		}
 
@@ -113,23 +113,57 @@ public class FileManager : Manager< FileManager > {
 		// 個数の取得
 		string str = sr.ReadLine( );
 		string[ ] values = str.Split( ',' );
-		int size = int.Parse( values[ 0 ] );
+		int md_size = int.Parse( values[ 0 ] );
+		int be_size = int.Parse( values[ 2 ] );
 
 		// 配列確保
-		data.md = new TIMING_DATA[ size ];
+		data.md = new TIMING_DATA[ md_size ];
+		data.be = new TIMING_DATA[ be_size ];
 
-		for ( int i = 0; i < size; i++ ) {
+
+		int length = 0;
+        // 大きいほうを設定
+        if ( md_size > be_size ) {
+            length = md_size;
+        } else if ( be_size > md_size ) {
+            length = be_size;
+        } else {
+			length = md_size;
+		}
+
+		for ( int i = 0; i < length; i++ ) {
 			// ファイルから一行読み込む
 			str = sr.ReadLine( );
 
 			// 読み込んだ一行をカンマ毎に分けて配列に格納する
 			values = str.Split( ',' );
 
-			// インデックスの取得
-			data.md[ i ].index = int.Parse( values[ 0 ] );
+            // タイミングデータを書き込み
+            if ( md_size < length && i >= md_size ) {
+				// インデックスの取得
+				data.be[ i ].index = int.Parse( values[ 2 ] );
 
-			// 時間の取得
-			data.md[ i ].frame = uint.Parse( values[ 1 ] );
+				// 時間の取得
+				data.be[ i ].frame = uint.Parse( values[ 3 ] );
+            } else if ( be_size < length && i >= be_size ) {
+				// インデックスの取得
+				data.md[ i ].index = int.Parse( values[ 0 ] );
+
+				// 時間の取得
+				data.md[ i ].frame = uint.Parse( values[ 1 ] );
+            } else {
+				// インデックスの取得
+				data.md[ i ].index = int.Parse( values[ 0 ] );
+
+				// 時間の取得
+				data.md[ i ].frame = uint.Parse( values[ 1 ] );
+            
+				// インデックスの取得
+				data.be[ i ].index = int.Parse( values[ 2 ] );
+
+				// 時間の取得
+				data.be[ i ].frame = uint.Parse( values[ 3 ] );
+            }
 		}
 
 		return data;
@@ -146,7 +180,8 @@ public class FileManager : Manager< FileManager > {
 		data.list = new List< FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA >( );
 
 		while ( !sr.EndOfStream ) {
-			FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA enemyData;
+            FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA enemyData_1;
+            FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA enemyData_2;
 
 			// ファイルから一行読み込む
 			string line = sr.ReadLine( );
@@ -154,30 +189,59 @@ public class FileManager : Manager< FileManager > {
 			// 読み込んだ一行をカンマ毎に分けて配列に格納する
 			string[ ] values = line.Split( ',' );
 
+            /////////////// リズム1個目 ////////////////
+
 			// リズム番号の取得
-			enemyData.rhythm_num = int.Parse( values[ 0 ] );
+			enemyData_1.rhythm_num = int.Parse( values[ 0 ] );
 
 			// 生成タイプの取得
-			enemyData.obj_type = values[ 1 ];
+			enemyData_1.obj_type = values[ 1 ];
 
 			// 生成位置の取得
-			enemyData.create_pos.x = float.Parse( values[ 2 ] );
-			enemyData.create_pos.y = float.Parse( values[ 3 ] );
-			enemyData.create_pos.z = float.Parse( values[ 4 ] );
+			enemyData_1.create_pos.x = float.Parse( values[ 2 ] );
+			enemyData_1.create_pos.y = float.Parse( values[ 3 ] );
+			enemyData_1.create_pos.z = float.Parse( values[ 4 ] );
 
 			// 方向の取得
-			enemyData.start_dir.x = float.Parse( values[ 5 ] );
-			enemyData.start_dir.y = float.Parse( values[ 6 ] );
-			enemyData.start_dir.z = float.Parse( values[ 7 ] );
+			enemyData_1.start_dir.x = float.Parse( values[ 5 ] );
+			enemyData_1.start_dir.y = float.Parse( values[ 6 ] );
+			enemyData_1.start_dir.z = float.Parse( values[ 7 ] );
 
 			// スピードの取得
-			enemyData.speed = float.Parse( values[ 8 ] );
+			enemyData_1.speed = float.Parse( values[ 8 ] );
 
 			// ターゲットの取得
-			enemyData.target_type = values[ 9 ];
+			enemyData_1.target_type = values[ 9 ];
 
 			// 追加
-			data.list.Add( enemyData );
+			data.list.Add( enemyData_1 );
+
+            /////////////// リズム２個目 ////////////////
+
+            // リズム番号の取得
+			enemyData_2.rhythm_num = int.Parse( values[ 0 ] );
+
+			// 生成タイプの取得
+			enemyData_2.obj_type = values[ 1 ];
+
+			// 生成位置の取得
+			enemyData_2.create_pos.x = float.Parse( values[ 2 ] );
+			enemyData_2.create_pos.y = float.Parse( values[ 3 ] );
+			enemyData_2.create_pos.z = float.Parse( values[ 4 ] );
+
+			// 方向の取得
+			enemyData_2.start_dir.x = float.Parse( values[ 5 ] );
+			enemyData_2.start_dir.y = float.Parse( values[ 6 ] );
+			enemyData_2.start_dir.z = float.Parse( values[ 7 ] );
+
+			// スピードの取得
+			enemyData_2.speed = float.Parse( values[ 8 ] );
+
+			// ターゲットの取得
+			enemyData_2.target_type = values[ 9 ];
+
+			// 追加
+			data.list.Add( enemyData_2 );
 		}
 
 		return data;

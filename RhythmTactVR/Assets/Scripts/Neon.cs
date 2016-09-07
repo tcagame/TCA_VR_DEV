@@ -126,11 +126,11 @@ public class Neon : MonoBehaviour {
 		// リズムマネージャー
 		if ( _rhythmManager ) {
 			// タイミング時
-			if ( _rhythmManager.isTiming( ) ) {
+			if ( _rhythmManager.isTiming( RhythmManager.RHYTHM_TAG.MELODY ) ) {
 				hitAnimationPlay( );
 				// カラーアニメーションの実行
-				if ( _rhythmManager.getIndex( ) % 3 == 0 ) {
-					circleColoringPlay( Vector3.zero, 2f, 1f, table[ _rhythmManager.getIndex( ) % table.Length ] );
+				if ( _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MELODY ) % 3 == 0 ) {
+					circleColoringPlay( Vector3.zero, 2f, 1f, table[ _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MELODY ) % table.Length ] );
 				}
 			}
 		}
@@ -250,7 +250,7 @@ public class Neon : MonoBehaviour {
 		};
 		int frameSum = frameTable[ 0 ] + frameTable[ 1 ] + frameTable[ 2 ];	// 総フレーム数
 		int ratioSum = ratioTable[ 0 ] + ratioTable[ 1 ] + ratioTable[ 2 ];	// 総比率
-		int nextFrameTiming = _rhythmManager.getNextBetweenFrame( );	// 次までのフレーム
+		int nextFrameTiming = _rhythmManager.getNextBetweenFrame( RhythmManager.RHYTHM_TAG.MELODY  );	// 次までのフレーム
 		// 次のフレームまで終わるか確認
 		if ( frameSum > nextFrameTiming ) {
 			frameTable[ 0 ] = nextFrameTiming * ratioTable[ 0 ] / ratioSum;

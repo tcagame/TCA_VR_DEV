@@ -11,9 +11,16 @@ public class Enemy : MonoBehaviour {
 	};
 
 	public enum TARGET_TYPE {
-		BODY,
-		RIGHT_ARM,
-		LEFT_ARM,
+        CENTER,
+        NORTH,
+        NORTH_EAST,
+        EAST,
+        SOUTH_EAST,
+        SOUTH,
+        SOUTH_WEST,
+        WEST,
+        NORTH_WEST,
+        MAX_TARGET_NUM
 	};
 	
 	int _rhythm_num;
@@ -50,13 +57,35 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void setTargetType( string type ) {
-		if ( type == "BODY" ) {
-			_target_type = TARGET_TYPE.BODY;
-		} else if ( type == "RIGHT_ARM" ) {
-			_target_type = TARGET_TYPE.RIGHT_ARM;
-		} else if ( type == "LEFT_ARM" ) {
-			_target_type = TARGET_TYPE.LEFT_ARM;
-		}
+		switch ( type ) {
+            case "CENTER":
+                _target_type = TARGET_TYPE.CENTER;
+                break;
+            case "NORTH":
+                _target_type = TARGET_TYPE.NORTH;
+                break;
+            case "NORTH_EAST":
+                _target_type = TARGET_TYPE.NORTH_EAST;
+                break;
+            case "EAST":
+                _target_type = TARGET_TYPE.EAST;
+                break;
+            case "SOUTH_EAST":
+                _target_type = TARGET_TYPE.SOUTH_EAST;
+                break;
+            case "SOUTH":
+                _target_type = TARGET_TYPE.SOUTH;
+                break;
+            case "SOUTH_WEST":
+                _target_type = TARGET_TYPE.SOUTH_WEST;
+                break;
+            case "WEST":
+                _target_type = TARGET_TYPE.WEST;
+                break;
+            case "NORTH_WEST":
+                _target_type = TARGET_TYPE.NORTH_WEST;
+                break;
+        }
 	}
 	
 	public void setDir( Vector3 dir ) {
