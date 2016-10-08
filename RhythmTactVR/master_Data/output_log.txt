@@ -1,0 +1,229 @@
+Initialize engine version: 5.4.0f3 (a6d8d714de6f)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 1080 (ID=0x1b80)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\uCPf.dll (this message is harmless)
+Loading C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\uCPf.dll into Unity Child Domain
+- Completed reload, in  0.037 seconds
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\test\Desktop\base\RhythmTactVR\master_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initialized touch support.
+Compositor failed to initialize.Compositor failed to initialize.OpenVR initialized!
+ 
+(Filename:  Line: 312)
+
+[VRDevice] Successfully created device OpenVR.
+UnloadTime: 0.436055 ms
+Connected to lighthouse:LHR-6BA11954
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Setting up 3 worker threads for Enlighten.
+  Thread -> id: 23b4 -> priority: 1 
+  Thread -> id: 2624 -> priority: 1 
+  Thread -> id: 29c8 -> priority: 1 
+Shader 'Custom/Chroma key': fallback shader 'Tranparent/Diffuse' not found
+The referenced script on this Behaviour (Game Object 'InputField_T') is missing!
+ 
+(Filename:  Line: 1656)
+
+The referenced script on this Behaviour (Game Object 'Slider_T') is missing!
+ 
+(Filename:  Line: 1656)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.708411 ms
+
+Unloading 19 unused Assets to reduce memory usage. Loaded Objects now: 1517.
+Total: 8.585629 ms (FindLiveObjects: 0.104688 ms CreateObjectMapping: 0.066273 ms MarkObjects: 0.607017 ms  DeleteObjects: 7.806477 ms)
+
+(0.1, 3.1, -14.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-1.9, 3.1, -9.7)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(2.1, 3.1, -9.7)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-3.9, 3.1, -14.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(4.1, 3.1, -14.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-12.2, 3.1, -9.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(12.4, 3.1, -9.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-11.5, 3.1, -4.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(8.3, 3.1, -6.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-8.1, 3.1, -6.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(11.7, 3.1, -4.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-15.7, 3.1, -7.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(8.9, 3.1, -11.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-8.7, 3.1, -11.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(15.9, 3.1, -7.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(0.1, -996.9, -0.6)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(0.1, -996.9, -0.6)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Tokyo
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.852101 ms
+
+Unloading 270 unused Assets to reduce memory usage. Loaded Objects now: 634.
+Total: 2.512817 ms (FindLiveObjects: 0.036069 ms CreateObjectMapping: 0.024632 ms MarkObjects: 0.309666 ms  DeleteObjects: 2.142155 ms)
+
+The referenced script on this Behaviour (Game Object 'InputField_T') is missing!
+ 
+(Filename:  Line: 1656)
+
+The referenced script on this Behaviour (Game Object 'Slider_T') is missing!
+ 
+(Filename:  Line: 1656)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+Shader 'Custom/Chroma key': fallback shader 'Tranparent/Diffuse' not found
+UnloadTime: 0.643086 ms
+
+Unloading 15 unused Assets to reduce memory usage. Loaded Objects now: 1544.
+Total: 8.217606 ms (FindLiveObjects: 0.117004 ms CreateObjectMapping: 0.100289 ms MarkObjects: 0.598513 ms  DeleteObjects: 7.400625 ms)
+
+(0.3, 3.2, -14.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-1.7, 3.2, -9.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(2.3, 3.2, -9.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-3.7, 3.2, -14.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(4.3, 3.2, -14.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-12.0, 3.2, -8.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(12.6, 3.2, -8.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-11.3, 3.2, -3.4)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(8.5, 3.2, -5.4)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-7.8, 3.2, -5.4)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(12.0, 3.2, -3.4)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-15.4, 3.2, -6.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(9.2, 3.2, -10.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(-8.5, 3.2, -10.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(16.1, 3.2, -6.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+(0.3, -996.8, 0.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Tokyo
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.874422 ms
+
+Unloading 268 unused Assets to reduce memory usage. Loaded Objects now: 658.
+Total: 2.843010 ms (FindLiveObjects: 0.065393 ms CreateObjectMapping: 0.070378 ms MarkObjects: 0.521096 ms  DeleteObjects: 2.184675 ms)
+
+OpenVR Shutdown
+ 
+(Filename:  Line: 660)
+
