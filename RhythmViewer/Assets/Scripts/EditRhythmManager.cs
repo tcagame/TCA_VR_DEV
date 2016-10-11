@@ -94,4 +94,21 @@ public class EditRhythmManager : RhythmManager {
 	public void addIndex( int value ) {
 		_index += value;
 	}
+    
+    /// <summary>
+    /// タイミングデータを取得
+    /// </summary>
+    /// <param name="index"> インデックス </param>
+    /// <returns> 成功：データ情報 失敗：null </returns>
+    public TIMING_DATA getTimingData( int index ) {
+        TIMING_DATA data = new TIMING_DATA( );
+
+        // 範囲外
+        if ( index < 0 || index >= _data.md.Length ) {
+            return data;
+        }
+
+        data = _data.md[ index ];
+        return data;
+    }
  }

@@ -121,39 +121,45 @@ public class TimingManager : MonoBehaviour {
 
 
 		// 現在のフレーム
-		int frame = _rhythmView.getFrameScale( ) * _rhythmView.getStageIndex( );
+		//int frame = _rhythmView.getFrameScale( ) * _rhythmView.getStageIndex( );
 
 		// インデックス
-		int index = _editRhythmManager.getIndex( );
+		//int index = _editRhythmManager.getIndex( );
+		int index = _rhythmView.getStageFirstTimingIndex( );
+
 
 		// ステージを作成
-		while ( frame < _rhythmView.getFrameScale( ) * ( _rhythmView.getStageIndex( ) + 1 ) ) {
+		//while ( frame < _rhythmView.getFrameScale( ) * ( _rhythmView.getStageIndex( ) + 1 ) ) {
+		while ( _editRhythmManager.getTimingData( index ).frame < _rhythmView.getFrameScale( ) * ( _rhythmView.getStageIndex( ) + 1 ) ) {
+
 			// 生成
-			if ( frame == ( int )_rhythmView.getData( index ).frame ) {
-				RectTransform rectTransform = _copyModule.create( );
+			RectTransform rectTransform = _copyModule.create( );
 
-				// ゲームオブジェクトの配下に設定
-				rectTransform.SetParent( transform );
+			// ゲームオブジェクトの配下に設定
+			rectTransform.SetParent( transform );
 
-				//トランスフォームの設定
-				rectTransform.sizeDelta = new Vector2( _copyModule.getWidth( ), 0f );
-				rectTransform.localPosition = Vector3.zero;
-				rectTransform.localScale = Vector3.one;
+			//トランスフォームの設定
+			rectTransform.sizeDelta = new Vector2( _copyModule.getWidth( ), 0f );
+			rectTransform.localPosition = Vector3.zero;
+			rectTransform.localScale = Vector3.one;
 
-				// コンポーネント追加
-				TimingModule modult = rectTransform.gameObject.AddComponent< TimingModule >( );
-				modult.initialize( index, frame, _rhythmView.getFrameScale( ), 0f, _rhythmView );
+			// コンポーネント追加
+			TimingModule modult = rectTransform.gameObject.AddComponent< TimingModule >( );
+			modult.initialize( index, ( int )_editRhythmManager.getTimingData( index ).frame, _rhythmView.getFrameScale( ), 0f, _rhythmView );
 
-				// リストに登録
-				_list.Add( rectTransform.gameObject );
+			// リストに登録
+			_list.Add( rectTransform.gameObject );
 
-				// インデックスの繰り上げ
-				index++;
+			// インデックスの繰り上げ
+			index++;
 
-				// オリジナルの個数の繰り上げ
-				_originListCount++;
-			}
-			frame++;
+			// オリジナルの個数の繰り上げ
+			_originListCount++;
+
+            // 終了確認
+            if ( _editRhythmManager.getDataCount( ) <= index ) {
+                break;
+            }
 		}
 
 		// ステージ内の最初のインデック番号の取得
