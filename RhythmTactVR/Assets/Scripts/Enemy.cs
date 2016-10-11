@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour {
 
 		trackedObj = GameObject.Find( "Controller (left)" ).GetComponent< SteamVR_TrackedObject >( );
 		_modemanager = GameObject.Find( "ModeManager" ).GetComponent< ModeManager >( );
-		_ControllerMng3 = GameObject.Find( "Controller (left)" ).GetComponent< ControllerMng3 >( );
+	    _ControllerMng3 = GameObject.Find( "Controller (left)" ).GetComponent< ControllerMng3 >( );
 		_target = GameObject.Find( "Camera (eye)" ).GetComponent< Transform >( );
 	
 	}

@@ -83,9 +83,27 @@ public class CubeManager : MonoBehaviour {
 	}
 
 	void FixedUpdate( ) {
+        if ( isError( ) ) {
+            return;
+        }
         // 敵キューブの挙動
         enemyUpdate( );
 	}
+
+    bool isError( ) {
+        bool error = false;
+
+        if ( !_file_manager ) {
+            try {
+                error = true;
+                _file_manager = FileManager.getInstance( );
+            } catch {
+                Debug.LogError( "ファイルマネージャーのインスタンスが取得できませんでした。" );
+            }
+        }
+
+        return error;
+    }
 
     void enemyUpdate( ) {
         /// <summary>

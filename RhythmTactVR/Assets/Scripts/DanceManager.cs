@@ -51,6 +51,10 @@ public class DanceManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate( ) {
+        if ( isError( ) ) {
+            return;
+        }
+
         // ダンスパート変更処理
         dancePartChange( );
 
@@ -78,6 +82,21 @@ public class DanceManager : MonoBehaviour {
 
 
 	}
+
+    bool isError( ) {
+        bool error = false;
+
+        if ( !_file_manager ) {
+            try {
+                error = true;
+                _file_manager = FileManager.getInstance( );
+            } catch {
+                Debug.LogError( "ファイルマネージャーのインスタンスが取得できませんでした。" );
+            }
+        }
+
+        return error;
+    }
 
     void dancePartChange( ) {
         if ( _rhythm_manager.isTiming( RhythmManager.RHYTHM_TAG.GROUP_ANIM ) ) {
