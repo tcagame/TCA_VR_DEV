@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp.Plugins", "RhythmTactVR.CSharp.Plugins.csproj", "{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp", "RhythmTactVR.CSharp.csproj", "{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}"
