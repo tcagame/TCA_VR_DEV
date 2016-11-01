@@ -62,6 +62,8 @@ public class CubeManager : MonoBehaviour {
     public FileManager _file_manager;
     public RhythmManager _rhythm_manager;
 
+    public Color _enemy_color;
+
 
     // 敵cube
     private List< ENEMY_CUBE > _enemy_list = new List< ENEMY_CUBE >( );
@@ -151,10 +153,11 @@ public class CubeManager : MonoBehaviour {
 	public void SetEnemyPos( int num, RhythmManager.RHYTHM_TAG tag ) {
 		Vector3 pos = _enemy_list[ num ].obj.transform.position;
 		ENEMY_GENERATOR.ENEMY_DATA enemy = _file_manager.getRhythmForNum( num, tag );
+        Enemy obj_enemy = _enemy_list[ num ].obj.GetComponent< Enemy >( );
 		
-		_enemy_list[ num ].obj.transform.position = new Vector3( pos.x + _enemy_list[ num ].obj.GetComponent< Enemy >( ).getDir( ).x * enemy.speed,
-														pos.y + _enemy_list[ num ].obj.GetComponent< Enemy >( ).getDir( ).y * enemy.speed,
-														pos.z + _enemy_list[ num ].obj.GetComponent< Enemy >( ).getDir( ).z * enemy.speed );
+		_enemy_list[ num ].obj.transform.position = new Vector3( pos.x + obj_enemy.getDir( ).x * enemy.speed,
+														pos.y + obj_enemy.getDir( ).y * enemy.speed,
+														pos.z + obj_enemy.getDir( ).z * enemy.speed );
 	}
 
     public void enemyCreate( int count, RhythmManager.RHYTHM_TAG tag ) {
@@ -163,16 +166,18 @@ public class CubeManager : MonoBehaviour {
         enemy_cube_data.tag = tag;
 		// 値の設定
 		GameObject obj = ( GameObject )Instantiate( _enemy_prefab, _file_manager.getRhythmForNum( count, tag ).create_pos, Quaternion.identity );
-		obj.GetComponent< Enemy >( ).setObjType( _file_manager.getRhythmForNum( count, tag ).obj_type );
-		obj.GetComponent< Enemy >( ).setSpeed( _file_manager.getRhythmForNum( count, tag ).speed );
-		obj.GetComponent< Enemy >( ).setTargetType( _file_manager.getRhythmForNum( count, tag ).target_type );
+        Enemy obj_enemy = obj.GetComponent< Enemy >( );
+		obj_enemy.setObjType( _file_manager.getRhythmForNum( count, tag ).obj_type );
+		obj_enemy.setSpeed( _file_manager.getRhythmForNum( count, tag ).speed );
+		obj_enemy.setTargetType( _file_manager.getRhythmForNum( count, tag ).target_type );
+        obj_enemy.setNeonColor( _enemy_color );
 
         // マネージャーの配下に設定
         obj.transform.parent = transform;
 
 		// ターゲットの設定
 		Vector3 pos = _target.position;
-        switch ( obj.GetComponent< Enemy >( ).getTargetType( ) ) {
+        switch ( obj_enemy.getTargetType( ) ) {
             case Enemy.TARGET_TYPE.NORTH:
                 pos.y += TARGET_DISTANCE;
                 break;
@@ -204,10 +209,10 @@ public class CubeManager : MonoBehaviour {
 		}
 		// 打ち出す方向の設定
 		Vector3 vec = pos - obj.transform.position;
-		obj.GetComponent< Enemy >( ).setDir( vec );
-		if ( obj.GetComponent< Enemy >( ).getObjType( ) == Enemy.OBJECT_TYPE.FAST_MIDDLE ) {
-			obj.GetComponent< Rigidbody >( ).AddForce( obj.GetComponent<Enemy>( ).getDir( ) * obj.GetComponent< Enemy >( ).getSpeed( ) );
-			obj.GetComponent< Enemy >( ).started( );
+		obj_enemy.setDir( vec );
+		if ( obj_enemy.getObjType( ) == Enemy.OBJECT_TYPE.FAST_MIDDLE ) {
+			obj.GetComponent< Rigidbody >( ).AddForce( obj.GetComponent<Enemy>( ).getDir( ) * obj_enemy.getSpeed( ) );
+			obj_enemy.started( );
 		}
         enemy_cube_data.obj = obj;
 

@@ -28,6 +28,7 @@ public class Neon : MonoBehaviour {
 
 	// 変数
 	protected Color[ ] _colors;
+    private bool _changeRhythmColoringMode = true;
 
 	protected virtual void Awake( ) {
 		// マテリアルのインスタンスを作成
@@ -96,7 +97,6 @@ public class Neon : MonoBehaviour {
 	// オールカラーリングの更新(シェーダーでの操作)
 	void updateAllColoring( ) {
 		Color[ ] table = {
-			Color.red,
 			Color.green,
 			Color.blue,
 			Color.cyan,
@@ -129,7 +129,7 @@ public class Neon : MonoBehaviour {
 			if ( _rhythmManager.isTiming( RhythmManager.RHYTHM_TAG.MAIN ) ) {
 				hitAnimationPlay( );
 				// カラーアニメーションの実行
-				if ( _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % 3 == 0 ) {
+				if ( _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % 3 == 0 && _changeRhythmColoringMode ) {
 					circleColoringPlay( Vector3.zero, 2f, 1f, table[ _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % table.Length ] );
 				}
 			}
@@ -271,4 +271,12 @@ public class Neon : MonoBehaviour {
 	protected void circleColoringPlay( Vector3 center, float length, float time, Color color ) {
 		_shader.setCircleColoring( center, length, time, color );
 	}
+
+    /// <summary>
+    /// リズムでカラーリングを行うモード切替
+    /// </summary>
+    /// <param name="enable"></param>
+    public void setChangeRhythmColoringMode( bool enable ) {
+        _changeRhythmColoringMode = enable;
+    }
 }

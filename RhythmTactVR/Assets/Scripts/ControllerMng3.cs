@@ -75,6 +75,8 @@ public class ControllerMng3 : MonoBehaviour {
                 //曲がサビより前なら味方のアンカーcube生成
                 if (_modemanager.GetComponent<ModeManager>().getMusicMode() < MUSIC_MODE.MODE_SABI) //0913 hamada
                 {
+                    go.GetComponentInChildren< Neon >( ).setChangeRhythmColoringMode( true );   // リズムカラーリングをON
+
                     _base_GO = GameObject.Instantiate(b_prefab);    //味方のアンカーcube生成.
 
                     _base_GO.transform.position = go.transform.position;

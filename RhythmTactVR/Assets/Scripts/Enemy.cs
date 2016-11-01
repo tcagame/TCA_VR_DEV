@@ -24,16 +24,16 @@ public class Enemy : MonoBehaviour {
         MAX_TARGET_NUM
 	};
 	
-	int _rhythm_num;
-	OBJECT_TYPE _obj_type;
-	TARGET_TYPE _target_type;
-	Vector3 _start_dir;
-	float _speed;
-	bool _start = false;
+	private OBJECT_TYPE _obj_type;
+	private TARGET_TYPE _target_type;
+	private Vector3 _start_dir;
+	private int _rhythm_num;
+	private float _speed;
+	private bool _start = false;
 
-	SteamVR_TrackedObject trackedObj;
-	ModeManager _modemanager;
-	ControllerMng3 _ControllerMng3;
+	private ModeManager _modemanager;
+	private ControllerMng3 _ControllerMng3;
+    private NeonShaderController _neon_shader_controller;
 
 	public Vector3 ret_velo;
     public float Ref_speed;
@@ -45,8 +45,10 @@ public class Enemy : MonoBehaviour {
 	// Use this for initialization
 	void Awake( ) {
 
-		trackedObj = GameObject.Find( "Controller (left)" ).GetComponent< SteamVR_TrackedObject >( );
+        GetComponentInChildren< Neon >( ).setChangeRhythmColoringMode( false ); // アニメーションカラーをOFF
+
 		_modemanager = GameObject.Find( "ModeManager" ).GetComponent< ModeManager >( );
+        _neon_shader_controller = GetComponentInChildren< NeonShaderController >( );
 	    _ControllerMng3 = GameObject.Find( "Controller (left)" ).GetComponent< ControllerMng3 >( );
 		_target = GameObject.Find( "Camera (eye)" ).GetComponent< Transform >( );
 	
@@ -54,35 +56,6 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate( ) {
-		if( _modemanager.getMusicMode() == MUSIC_MODE.MODE_SABI ){
-			var rb = this.GetComponent< Rigidbody >();
-			var origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
-			/*if( _ControllerMng3.isDirectionMatch( this.transform.position ) ){
-				if(this.transform.localScale != _max_scale) {
-					this.transform.localScale += this.transform.localScale * Time.deltaTime * 5;
-				}
-
-				var device = SteamVR_Controller.Input((int)trackedObj.index);
-
-				
-				if (origin != null)
-				{
-					rb.angularVelocity = origin.TransformVector(device.angularVelocity);
-					rb.velocity = Vector3.zero;
-				}
-				else {
-					rb.angularVelocity = device.angularVelocity;
-					rb.velocity = Vector3.zero;
-
-				}
-				rb.maxAngularVelocity = rb.angularVelocity.magnitude;
-			} else {
-				if(this.transform.localScale != _min_scale) {
-					this.transform.localScale -= this.transform.localScale * Time.deltaTime * 5;
-				}
-				rb.velocity = Vector3.zero;
-			}*/
-		}
 		float distance = Vector3.Distance( this.transform.position, _target.position );
 		if( distance > _distance ) {
 			this.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -91,7 +64,6 @@ public class Enemy : MonoBehaviour {
 			}
 		}
 	}
-
 	
 	public void setRhyrhmNum( int num ) {
 		_rhythm_num = num;
@@ -172,6 +144,10 @@ public class Enemy : MonoBehaviour {
 	public float getSpeed( ) {
 		return _speed;
 	}
+
+    public void setNeonColor( Color color ) {
+        _neon_shader_controller.setVertexColor( color );
+    }
 
 	public bool isStart( ) {
 		return _start;
