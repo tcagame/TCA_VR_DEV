@@ -80,27 +80,34 @@ public class FileManager : Manager< FileManager > {
 	/// <param name="fileName"> ファイルの名前 </param>
 	/// <param name="list"> ファイルデータ型のリスト </param>
 	protected bool loadFile( File file ) {
-		try {
-			StreamReader sr = new StreamReader( "../" + file.getName( ) + ".csv" );
+	
+		// ファイルパス
+		string FILE_PATH = "../" + file.getName( ) + ".csv";
 
-			FILE_DATA data = new FILE_DATA( );
+		// ロード
+		StreamReader sr = getFileStream( FILE_PATH );
 
-			// リズムデータの取得
-			data.rhythm = getLoadFileRhythmData( ref sr );
-				
-			// エネミーデータの取得
-			data.enemyGenerator = getLoadFileEnemyGeneratorData( ref sr );
-				
-			sr.Close( );
-
-			// データ上書き
-			file.setData( data );
-
-			return true;
-		} catch {
-			Debug.LogError( "Missing Load File..." );
+		// エラー
+		if ( sr == null ) {
 			return false;
 		}
+			
+		// 格納用配列作成
+		FILE_DATA data = new FILE_DATA( );
+
+		// リズムデータの取得
+		data.rhythm = getLoadFileRhythmData( ref sr );
+				
+		// エネミーデータの取得
+		data.enemyGenerator = getLoadFileEnemyGeneratorData( ref sr );
+				
+		// ファイルを閉じる
+		sr.Close( );
+
+		// データ上書き
+		file.setData( data );
+
+		return true;
 	}
 		
 	/// <summary>
@@ -110,28 +117,32 @@ public class FileManager : Manager< FileManager > {
 	protected FILE_DATA.RHYTHM getLoadFileRhythmData( ref StreamReader sr ) {
 		FILE_DATA.RHYTHM data = new FILE_DATA.RHYTHM( );
 
-		// 個数の取得
-		string str = sr.ReadLine( );
-		string[ ] values = str.Split( ',' );
-		int size = int.Parse( values[ 0 ] );
+		try { 
+			// 個数の取得
+			string str = sr.ReadLine( );
+			string[ ] values = str.Split( ',' );
+			int size = int.Parse( values[ 0 ] );
 
-		// 配列確保
-		data.md = new TIMING_DATA[ size ];
+			// 配列確保
+			data.md = new TIMING_DATA[ size ];
 
-		for ( int i = 0; i < size; i++ ) {
-			// ファイルから一行読み込む
-			str = sr.ReadLine( );
+			for ( int i = 0; i < size; i++ ) {
+				// ファイルから一行読み込む
+				str = sr.ReadLine( );
 
-			// 読み込んだ一行をカンマ毎に分けて配列に格納する
-			values = str.Split( ',' );
+				// 読み込んだ一行をカンマ毎に分けて配列に格納する
+				values = str.Split( ',' );
 
-			// インデックスの取得
-			data.md[ i ].index = int.Parse( values[ 0 ] );
+				// インデックスの取得
+				data.md[ i ].index = int.Parse( values[ 0 ] );
 
-			// 時間の取得
-			data.md[ i ].frame = uint.Parse( values[ 1 ] );
+				// 時間の取得
+				data.md[ i ].frame = uint.Parse( values[ 1 ] );
+			}
+		} catch( System.Exception exp ) {
+			Debug.LogError( "リズムデータの読み込み途中でエラーが発生しました。\n" + getErrorFileInfo( ref exp ) );
 		}
-
+		 
 		return data;
 	}
 		
@@ -145,41 +156,45 @@ public class FileManager : Manager< FileManager > {
 		// リストの確保
 		data.list = new List< FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA >( );
 
-		while ( !sr.EndOfStream ) {
-			FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA enemyData;
+		 try {
+			while ( !sr.EndOfStream ) {
+				FILE_DATA.ENEMY_GENERATOR.ENEMY_DATA enemyData;
 
-			// ファイルから一行読み込む
-			string line = sr.ReadLine( );
+				// ファイルから一行読み込む
+				string line = sr.ReadLine( );
 
-			// 読み込んだ一行をカンマ毎に分けて配列に格納する
-			string[ ] values = line.Split( ',' );
+				// 読み込んだ一行をカンマ毎に分けて配列に格納する
+				string[ ] values = line.Split( ',' );
 
-			// リズム番号の取得
-			enemyData.rhythm_num = int.Parse( values[ 0 ] );
+				// リズム番号の取得
+				enemyData.rhythm_num = int.Parse( values[ 0 ] );
 
-			// 生成タイプの取得
-			enemyData.obj_type = values[ 1 ];
+				// 生成タイプの取得
+				enemyData.obj_type = values[ 1 ];
 
-			// 生成位置の取得
-			enemyData.create_pos.x = float.Parse( values[ 2 ] );
-			enemyData.create_pos.y = float.Parse( values[ 3 ] );
-			enemyData.create_pos.z = float.Parse( values[ 4 ] );
+				// 生成位置の取得
+				enemyData.create_pos.x = float.Parse( values[ 2 ] );
+				enemyData.create_pos.y = float.Parse( values[ 3 ] );
+				enemyData.create_pos.z = float.Parse( values[ 4 ] );
 
-			// 方向の取得
-			enemyData.start_dir.x = float.Parse( values[ 5 ] );
-			enemyData.start_dir.y = float.Parse( values[ 6 ] );
-			enemyData.start_dir.z = float.Parse( values[ 7 ] );
+				// 方向の取得
+				enemyData.start_dir.x = float.Parse( values[ 5 ] );
+				enemyData.start_dir.y = float.Parse( values[ 6 ] );
+				enemyData.start_dir.z = float.Parse( values[ 7 ] );
 
-			// スピードの取得
-			enemyData.speed = float.Parse( values[ 8 ] );
+				// スピードの取得
+				enemyData.speed = float.Parse( values[ 8 ] );
 
-			// ターゲットの取得
-			enemyData.target_type = values[ 9 ];
+				// ターゲットの取得
+				enemyData.target_type = values[ 9 ];
 
-			// 追加
-			data.list.Add( enemyData );
+				// 追加
+				data.list.Add( enemyData );
+			}
+		} catch( System.Exception exp ) {
+			Debug.LogError( "エネミージェネレーターの読み込み途中でエラーが発生しました。\n" + getErrorFileInfo( ref exp ) );
 		}
-
+		 
 		return data;
 	}
 
@@ -210,5 +225,43 @@ public class FileManager : Manager< FileManager > {
 
 	public int getRhythmCount( ) {
 		return getFileData( ).enemyGenerator.list.Count;
+	}
+
+	/// <summary>
+	/// ファイルストリームの取得
+	/// </summary>
+	/// <param name="filePath"></param>
+	/// <returns></returns>
+	protected StreamReader getFileStream( string filePath ) {
+		try {	
+			StreamReader file = new StreamReader( filePath );
+			Debug.Log( file.BaseStream );
+			return file;
+		} catch {
+			Debug.LogError( "ファイルのロードが失敗しました。(" + filePath + ")" );
+			return null;
+		}
+	}
+	
+	/// <summary>
+	/// エラーを起こしたファイル情報を得る
+	/// </summary>
+	/// <param name="exp"></param>
+	/// <returns></returns>
+	protected string getErrorFileInfo( ref System.Exception exp ) {
+		System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace( exp, true ); //第二引数のtrueがファイルや行番号をキャプチャするため必要
+		System.Diagnostics.StackFrame frame = trace.GetFrame( 0 );
+		
+		// メッセージ作成
+		string message = "\n<<< エラー情報 >>>>\n";
+		message += "[ ";
+		message += "ファイル( " + trace.GetFrame( 0 ).GetFileName( ) + " )";     // ファイル名
+		message += " ";
+		message += "行番号( " + frame.GetFileLineNumber( ) + " )";   //　行番号
+		message += " ";
+		message += " ]";
+		message += "\n";
+
+		return message;
 	}
 }

@@ -6,15 +6,17 @@ using Common;
 
 public class EditFileManager : FileManager {
 
-
 	// Awake関数の代わり
 	protected override void initialize( ) {
 
 	}
 
 	public bool saveRhythm( List< TIMING_DATA > data ) {
+		// ファイルパス
+		string FILE_PATH = Application.dataPath + "/" + _file.getName( ) + ".csv";
+
 		try {
-			StreamWriter sw = new StreamWriter( Application.dataPath + "/" + _file.getName( ) + ".csv", false );
+			StreamWriter sw = new StreamWriter( FILE_PATH, false );
 
 			// 個数の書き込み
 			sw.WriteLine( data.Count );
@@ -63,8 +65,8 @@ public class EditFileManager : FileManager {
 			sw.Close( );
 
 			return true;
-		} catch {
-			Debug.LogError( "Missing Save File..." );
+		} catch( System.Exception exp ) {
+			Debug.LogError( "ファイルのセーブに失敗しました。" + getErrorFileInfo( ref exp ) );
 			return false;
 		}
 
@@ -82,26 +84,6 @@ public class EditFileManager : FileManager {
 	/// </summary>
 	/// <returns></returns>
 	public bool loadFile( ) {
-		try {
-			StreamReader sr = new StreamReader( "../" + _file.getName( ) + ".csv" );
-
-			FILE_DATA data = new FILE_DATA( );
-
-			// リズムデータの取得
-			data.rhythm = getLoadFileRhythmData( ref sr );
-				
-			// エネミーデータの取得
-			data.enemyGenerator = getLoadFileEnemyGeneratorData( ref sr );
-				
-			sr.Close( );
-
-			// データ上書き
-			_file.setData( data );
-
-			return true;
-		} catch {
-			Debug.LogError( "Missing Load File..." );
-			return false;
-		}
+		return base.loadFile( _file );
 	}
 }
