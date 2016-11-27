@@ -152,4 +152,8 @@ public class Enemy : MonoBehaviour {
 	public bool isStart( ) {
 		return _start;
 	}
+
+	public void setNeonHitColor( Color color ) {
+		_neon_shader_controller.setHitEffectColor( color );
+	}  
 }

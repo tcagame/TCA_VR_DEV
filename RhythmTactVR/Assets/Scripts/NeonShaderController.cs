@@ -197,7 +197,7 @@ public class NeonShaderController : MonoBehaviour {
 
 		public HitEffect( NeonShaderController controller, Material mat ) 
 			: base( controller, mat ) { 
-
+			_color = Color.white;
 		}
 
 		protected override void playSetting( ) {
@@ -444,7 +444,7 @@ public class NeonShaderController : MonoBehaviour {
 	/// <param name="firstTime"></param>
 	/// <param name="secondTime"></param>
 	/// <param name="thirdTime"></param>
-	public void setHitAnimation( Color color, int firstFrame = 0, int secondFrame = 0, int thirdFrame = 0 ) {
+	public void setHitAnimation( int firstFrame = 0, int secondFrame = 0, int thirdFrame = 0 ) {
 		// 再生の確認
 		if ( !_hitEffect.isPlay( ) ) {
 			// 現在の頂点カラーの取得
@@ -454,8 +454,7 @@ public class NeonShaderController : MonoBehaviour {
 		_hitEffect.setFrame( HitEffect.STEP.FIRST, firstFrame );	// first
 		_hitEffect.setFrame( HitEffect.STEP.SECOND, secondFrame );	// second
 		_hitEffect.setFrame( HitEffect.STEP.THIRD, thirdFrame );	// third
-		// 変化する色
-		_hitEffect._color = color;
+		
 		// フラグON
 		_hitEffect.play( );
 	}
@@ -483,5 +482,12 @@ public class NeonShaderController : MonoBehaviour {
 	/// <returns></returns>
 	bool isSynchronize( ) {
 		return _synchronizeAnimation;
+	}
+
+	/// <summary>
+	/// ヒットエフェクトの色設定
+	/// </summary>
+	public void setHitEffectColor( Color color ) {
+		_hitEffect._color = color;
 	}
 }

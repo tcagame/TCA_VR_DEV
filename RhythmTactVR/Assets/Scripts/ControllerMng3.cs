@@ -128,6 +128,13 @@ public class ControllerMng3 : MonoBehaviour {
                                     //ParSys[1].transform.position = raycast.origin + hit.distance * raycast.direction.normalized;
                                     //ParSys[1].Play();
                                 }
+				// 敵キューブの色変更
+				try {
+					go.GetComponent< Enemy >( ).setNeonColor( Neon.getRandamColor( ) );
+				} catch {
+					Debug.LogError( "敵キューブの取得失敗" );
+				}
+
             }
 
             UpdateShakeCTRL();

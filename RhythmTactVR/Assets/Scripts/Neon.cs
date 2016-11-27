@@ -30,6 +30,25 @@ public class Neon : MonoBehaviour {
 	protected Color[ ] _colors;
     private bool _changeRhythmColoringMode = true;
 
+	#region static 関数
+
+	/// <summary>
+	/// ランダムで色を取得
+	/// </summary>
+	/// <returns></returns>
+	public static Color getRandamColor( ) {
+		Color[ ] table = {
+			Color.green,
+			Color.blue,
+			Color.cyan,
+			Color.yellow,
+		};
+
+		return table[ Random.Range( 0, table.Length ) ];
+	}
+
+	#endregion
+
 	protected virtual void Awake( ) {
 		// マテリアルのインスタンスを作成
 		Material mat = Instantiate( _mat ) as Material;
@@ -66,12 +85,9 @@ public class Neon : MonoBehaviour {
 		// 適用
 		_filter = GetComponent< MeshFilter >( );
 		_filter.sharedMesh = mesh;
-
 		MeshRenderer renderer = GetComponent< MeshRenderer >( );
 		renderer.material = mat;
 
-
-		
 		// リズムマネージャーの取得
 		_rhythmManager = GameObject.Find( "RhythmManager" ).GetComponent< RhythmManager >( );
 	}
@@ -96,15 +112,10 @@ public class Neon : MonoBehaviour {
 
 	// オールカラーリングの更新(シェーダーでの操作)
 	void updateAllColoring( ) {
-		Color[ ] table = {
-			Color.green,
-			Color.blue,
-			Color.cyan,
-			Color.yellow,
-		};
+		
 		// すべての頂点カラーをセット
 		if ( Input.GetKeyDown( KeyCode.F1 ) ) {
-			lineColoringPlay( table[ Random.Range( 0, table.Length ) ], new Vector3( -1, -1, -1 ), new Vector3( 1, 1, 1 ) );
+			lineColoringPlay( getRandamColor( ), new Vector3( -1, -1, -1 ), new Vector3( 1, 1, 1 ) );
 		}
 
 		// ハイライトの実行
@@ -120,7 +131,7 @@ public class Neon : MonoBehaviour {
 
 		// サークルカラーアニメーション
 		if ( Input.GetKeyDown( KeyCode.F4 ) ) {
-			circleColoringPlay( Vector3.zero, 2f, 1f, table[ Random.Range( 0, table.Length ) ] );
+			circleColoringPlay( Vector3.zero, 2f, 1f, getRandamColor( ) );
 		}
 
 		// リズムマネージャー
@@ -130,7 +141,9 @@ public class Neon : MonoBehaviour {
 				hitAnimationPlay( );
 				// カラーアニメーションの実行
 				if ( _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % 3 == 0 && _changeRhythmColoringMode ) {
-					circleColoringPlay( Vector3.zero, 2f, 1f, table[ _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % table.Length ] );
+					//circleColoringPlay( Vector3.zero, 2f, 1f, table[ _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % table.Length ] );
+					circleColoringPlay( Vector3.zero, 2f, 1f, getRandamColor( ) );
+
 				}
 			}
 		}
@@ -258,7 +271,7 @@ public class Neon : MonoBehaviour {
 			frameTable[ 2 ] = nextFrameTiming * ratioTable[ 2 ] / ratioSum;
 		}
 
-		_shader.setHitAnimation( Color.white, frameTable[ 0 ], frameTable[ 1 ], frameTable[ 2 ] );
+		_shader.setHitAnimation( frameTable[ 0 ], frameTable[ 1 ], frameTable[ 2 ] );
 	}
 
 	/// <summary>

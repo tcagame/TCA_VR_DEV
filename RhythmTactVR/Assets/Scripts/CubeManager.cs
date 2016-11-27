@@ -63,6 +63,7 @@ public class CubeManager : MonoBehaviour {
     public RhythmManager _rhythm_manager;
 
     public Color _enemy_color;
+	public Color _enemy_hit_color;
 
 
     // 敵cube
@@ -171,6 +172,7 @@ public class CubeManager : MonoBehaviour {
 		obj_enemy.setSpeed( _file_manager.getRhythmForNum( count, tag ).speed );
 		obj_enemy.setTargetType( _file_manager.getRhythmForNum( count, tag ).target_type );
         obj_enemy.setNeonColor( _enemy_color );
+        obj_enemy.setNeonHitColor( _enemy_hit_color );
 
         // マネージャーの配下に設定
         obj.transform.parent = transform;
