@@ -1,11 +1,11 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp.Plugins", "RhythmTactVR.CSharp.Plugins.csproj", "{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{6CB70114-1DB3-5648-9F94-BBA65DE63BF7}") = "RhythmTactVR", "Assembly-CSharp-firstpass.csproj", "{5FC66845-FD2E-3941-D35F-FA53F55F4721}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp", "RhythmTactVR.CSharp.csproj", "{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}"
+Project("{6CB70114-1DB3-5648-9F94-BBA65DE63BF7}") = "RhythmTactVR", "Assembly-CSharp.csproj", "{91A0B3D1-7A94-483A-1827-229B035AB5EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp.Editor", "RhythmTactVR.CSharp.Editor.csproj", "{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}"
+Project("{6CB70114-1DB3-5648-9F94-BBA65DE63BF7}") = "RhythmTactVR", "Assembly-CSharp-Editor.csproj", "{CBA40453-6649-070C-0D5E-0FD027FB5B5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,20 +13,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FC66845-FD2E-3941-D35F-FA53F55F4721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FC66845-FD2E-3941-D35F-FA53F55F4721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FC66845-FD2E-3941-D35F-FA53F55F4721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC66845-FD2E-3941-D35F-FA53F55F4721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91A0B3D1-7A94-483A-1827-229B035AB5EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91A0B3D1-7A94-483A-1827-229B035AB5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91A0B3D1-7A94-483A-1827-229B035AB5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91A0B3D1-7A94-483A-1827-229B035AB5EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBA40453-6649-070C-0D5E-0FD027FB5B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA40453-6649-070C-0D5E-0FD027FB5B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA40453-6649-070C-0D5E-0FD027FB5B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA40453-6649-070C-0D5E-0FD027FB5B5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
