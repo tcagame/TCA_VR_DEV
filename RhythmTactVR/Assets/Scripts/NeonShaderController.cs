@@ -35,6 +35,13 @@ public class NeonShaderController : MonoBehaviour {
 			_play = true;
 			playSetting( );
 		}
+		
+		/// <summary>
+		/// 終了
+		/// </summary>
+		public void finish( ) {
+			_play = false;
+		}
 
 		/// <summary>
 		/// 実行時の設定( playメソッドから呼び出しする )
@@ -334,7 +341,7 @@ public class NeonShaderController : MonoBehaviour {
 		_highlight = new Highlight( this, _mat );
 		_hitEffect = new HitEffect( this, _mat );
 		_circleColoring = new CircleColoring( this, _mat );
-	}
+    } 
 
 	/// <summary>
 	/// モードの更新
@@ -354,7 +361,7 @@ public class NeonShaderController : MonoBehaviour {
 	/// シェーダモジュールズの更新
 	/// </summary>
 	public virtual void updateShaderModules( ) {
-		_lineColoring.update( );
+        _lineColoring.update( );
 		_circleColoring.update( );
 		_highlight.update( );
 		_hitEffect.update( );
@@ -365,8 +372,28 @@ public class NeonShaderController : MonoBehaviour {
 	/// </summary>
 	/// <param name="color"> 頂点カラー </param>
 	public void setVertexColor( Color color ) {
-		//カラーをセット
 		_mat.SetColor( "_VertexColor", color );
+	}
+	
+	/// <summary>
+	/// 強制的に頂点カラーを設定（すべてのアニメーションを終了）
+	/// </summary>
+	/// <param name="color"></param>
+	public void setForciblyVertexColor( Color color ) {
+		// 実行中アニメーションの終了
+		if ( _lineColoring.isPlay( ) ) {
+			_lineColoring.finish( );
+		}
+		if ( _circleColoring.isPlay( ) ) {
+			_circleColoring.finish( );
+		}
+		if ( _highlight.isPlay( ) ) {
+			_highlight.finish( );
+		}
+		if ( _hitEffect.isPlay( ) ) {
+			_hitEffect.finish( );
+		}
+		setVertexColor( color );
 	}
 
 	/// <summary>

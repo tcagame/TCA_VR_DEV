@@ -146,7 +146,7 @@ public class Enemy : MonoBehaviour {
 	}
 
     public void setNeonColor( Color color ) {
-        _neon_shader_controller.setVertexColor( color );
+        _neon_shader_controller.setForciblyVertexColor( color );	// 強制的に頂点カラーを変更.
     }
 
 	public bool isStart( ) {

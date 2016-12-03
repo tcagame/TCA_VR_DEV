@@ -29,6 +29,7 @@ public class Neon : MonoBehaviour {
 	// 変数
 	protected Color[ ] _colors;
     private bool _changeRhythmColoringMode = true;
+	private bool _enableHitEffect = true;	// ヒットエフェクトの実行切り替えフラグ
 
 	#region static 関数
 
@@ -143,7 +144,7 @@ public class Neon : MonoBehaviour {
 				if ( _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % 3 == 0 && _changeRhythmColoringMode ) {
 					//circleColoringPlay( Vector3.zero, 2f, 1f, table[ _rhythmManager.getIndex( RhythmManager.RHYTHM_TAG.MAIN ) % table.Length ] );
 					circleColoringPlay( Vector3.zero, 2f, 1f, getRandamColor( ) );
-
+                
 				}
 			}
 		}
@@ -254,6 +255,10 @@ public class Neon : MonoBehaviour {
 	/// ヒットしたアニメーション
 	/// </summary>
 	protected virtual void hitAnimationPlay( ) {
+		// 実行確認
+		if ( !_enableHitEffect ) {
+			return;
+		}
 		// テーブル
 		int[ ] ratioTable = {
 			1, 2, 1,
@@ -292,4 +297,12 @@ public class Neon : MonoBehaviour {
     public void setChangeRhythmColoringMode( bool enable ) {
         _changeRhythmColoringMode = enable;
     }
+
+	/// <summary>
+	/// ヒットエフェクトの実行切り替え
+	/// </summary>
+	/// <param name="enable"></param>
+	public void setActiveHitEffect( bool enable ) {
+		_enableHitEffect = enable;
+	}
 }

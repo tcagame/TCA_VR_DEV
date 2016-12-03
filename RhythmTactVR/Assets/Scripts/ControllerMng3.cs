@@ -131,6 +131,8 @@ public class ControllerMng3 : MonoBehaviour {
 				// 敵キューブの色変更
 				try {
 					go.GetComponent< Enemy >( ).setNeonColor( Neon.getRandamColor( ) );
+					//go.GetComponent< Enemy >( ).setNeonHitColor( new Color( 0.8f, 0.8f, 0.8f ) );	// ヒットエフェクトの変更
+					go.GetComponentInChildren< Neon >( ).setActiveHitEffect( false );	//ヒットエフェクトの実行OFF
 				} catch {
 					Debug.LogError( "敵キューブの取得失敗" );
 				}
