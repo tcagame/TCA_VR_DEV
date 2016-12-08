@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.Plugins", "RhythmTactVR.Plugins.csproj", "{46B7FE46-AE19-F490-6DB1-A2D9D741BA04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp.Plugins", "RhythmTactVR.CSharp.Plugins.csproj", "{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR", "RhythmTactVR.csproj", "{6F5949BE-13C0-5095-A1EF-6C570120DD3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp", "RhythmTactVR.CSharp.csproj", "{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.Editor", "RhythmTactVR.Editor.csproj", "{9E8A18F0-7414-0136-8569-F31318609B4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmTactVR.CSharp.Editor", "RhythmTactVR.CSharp.Editor.csproj", "{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46B7FE46-AE19-F490-6DB1-A2D9D741BA04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46B7FE46-AE19-F490-6DB1-A2D9D741BA04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46B7FE46-AE19-F490-6DB1-A2D9D741BA04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46B7FE46-AE19-F490-6DB1-A2D9D741BA04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F5949BE-13C0-5095-A1EF-6C570120DD3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F5949BE-13C0-5095-A1EF-6C570120DD3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F5949BE-13C0-5095-A1EF-6C570120DD3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F5949BE-13C0-5095-A1EF-6C570120DD3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E8A18F0-7414-0136-8569-F31318609B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E8A18F0-7414-0136-8569-F31318609B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E8A18F0-7414-0136-8569-F31318609B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E8A18F0-7414-0136-8569-F31318609B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B665FAF-70FA-210B-CFFB-5B1F5DA2542C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2534EC30-4148-03FE-C2D6-9C6CA54EC3F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAB911B-9EB2-3470-DFDA-01DFF069FE2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
